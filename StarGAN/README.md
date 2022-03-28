@@ -1,12 +1,12 @@
-# StarGAN: Unified Generative Adversarial Networks for Multi-Domain Image-to-Image Translation
+# __StarGAN: Unified Generative Adversarial Networks for Multi-Domain Image-to-Image Translation__
 
-## Abstract
+# Abstract
 * 최근 연구는 2개의 domain에서의 imageto-image translation에서 큰 성공을 보여줬다.
 * 하지만 2개 이상의 domain에서는 scalability(확장성)와 robustness(견고성)이 제한되었다.
   > 각 이미지 domain 쌍에 대해 독립적으로 만들어졌기 때문
 * __StarGAN은 단 하나의 모델을 사용하여 여러가지 domain에 대해 imageto-image translation을 할 수 있다__ 
 
-## Introdution
+# Introdution
 
 <img width="676" alt="스크린샷 2022-03-28 오전 11 14 55" src="https://user-images.githubusercontent.com/56713634/160315357-3832fc06-5ecf-4e3e-baae-54960ca7c148.png">
 
@@ -23,3 +23,18 @@
   * 모든 가능한 domain사이의 매핑을 하나의 generator(G)를 통해 학습한다.
     > 이미지와 도메인 정보를 input으로 넣고 유연하게 이미지를 알맞는 도메인으로 바꾸는 것을 학습한다.
   * 모든 domain의 정보들을 제어할 수 있도록 mask vector를 사용한다.
+
+# Star Generative Adversarial Networks
+* Overview
+<img width="696" alt="스크린샷 2022-03-28 오후 1 00 43" src="https://user-images.githubusercontent.com/56713634/160324352-2f527e17-7cfb-49a5-85b2-038a56f4499e.png">
+
+## Multi-Domain Image-to-Image Translation
+StarGAN의 목표는 여러 domain간의 매핑을 학습하는 G를 학습시키는 것이다.
+이를 위해서는 input x를 target domain 라벨 c의 조건에서 output image y로 변환시키도록 G를 학습한다.
+
+### Adversarial Loss
+* 생성된 이미지를 실제 이미지와 구별할 수 없도록 Adversarial Loss을 채택
+* G는 둘다 조건이 지정된 이미미 G(x,c)를 생성한다.
+* input image x 및 target domain c,D는 실제 이미지와 가짜 이미지를 구별하도록 시도한다.
+
+<img width="228" alt="스크린샷 2022-03-28 오후 2 10 21" src="https://user-images.githubusercontent.com/56713634/160330275-6def309a-69d9-4b8b-8d3b-f9b8de8d2134.png">
