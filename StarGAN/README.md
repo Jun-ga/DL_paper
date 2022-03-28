@@ -44,15 +44,20 @@ StarGAN의 목표는 여러 domain간의 매핑을 학습하는 G를 학습시�
   * D : loss를 최대화
 
 ### Domain Classification Loss
-* 주어진 input image x와 target image labal c에 대해 x를 타켓 도메인 c로 분류된 output image y로 변환한다.
-  > 이를 만족하기 위해서 auxiliary classifier를 추가하고 D와 G를 최적화한다.
+주어진 input image x와 target image labal c에 대해 x를 타켓 도메인 c로 분류된 output image y로 변환한다.
+> 이를 만족하기 위해서 auxiliary classifier를 추가하고 D와 G를 최적화한다.
 
-#### 진짜 이미지의 domain classification loss : 판별자를 최적화하기 위함
-<p align="center"><img width="170" alt="스크린샷 2022-03-28 오후 2 28 49" src="https://user-images.githubusercontent.com/56713634/160332144-00d86073-2bde-4361-aa0b-0ef1b2b6b290.png"> 
+* 진짜 이미지의 domain classification loss : 판별자를 최적화하기 위함
+<p align="center"><img width="170" alt="스크린샷 2022-03-28 오후 2 28 49" src="https://user-images.githubusercontent.com/56713634/160332144-00d86073-2bde-4361-aa0b-0ef1b2b6b290.png"></p> 
   
     D는 real image x를 그것에 대응하는 original domain c'로 분류시키는 것을 학습한다.
 
-#### 가짜 이미지의 domain classification loss : 생성자를 최적화하기 위함
-<p align="center"><img width="192" alt="스크린샷 2022-03-28 오후 2 33 56" src="https://user-images.githubusercontent.com/56713634/160332648-cccaea60-2638-4bd0-8a3d-82663b541327.png">
+* 가짜 이미지의 domain classification loss : 생성자를 최적화하기 위함
+<p align="center"><img width="192" alt="스크린샷 2022-03-28 오후 2 33 56" src="https://user-images.githubusercontent.com/56713634/160332648-cccaea60-2638-4bd0-8a3d-82663b541327.png"></p>
   
     G는 target domain c로 분류될 수 있는 image를 생성하도록 loss를 최소화하려고 한다.
+  
+
+### Reconstruction Loss
+위에서 소개한 loss만으로는 input image의 target domain에 관련한 부분만을 변화시킬때 input image의 본래 형태를 잘 보존할 수 없다. 따라서 generator에 loss를 하나 더 적용한다.
+  
