@@ -114,5 +114,16 @@ CycleGAN의 architecture를 baseline으로 사용
 * G만 instance normalization(D는 X)
 
 ## Experiments
-
 <p align="center"><img width="682" alt="스크린샷 2022-03-28 오후 4 02 56" src="https://user-images.githubusercontent.com/56713634/160343733-0b08906a-5c67-4d41-b825-6770f5889224.png"></p>
+기존의 cross-domain model들은 각 domain의 특성의 적용이 잘 안되는 반면 StarGAN은 특성들의 적용이 좋다.
+
+### CelebA & RaFD
+<p align="center"><img width="482" alt="스크린샷 2022-03-28 오후 4 11 24" src="https://user-images.githubusercontent.com/56713634/160345055-d1af5dc3-8f66-485c-9aa6-ad534d84a7d3.png"></p>
+
+### Maskvector
+<p align="center"><img width="586" alt="스크린샷 2022-03-28 오후 4 14 33" src="https://user-images.githubusercontent.com/56713634/160345551-63f486e9-6757-492e-9a63-2ce359c1e138.png"></p>
+maskvector가 제대로 적용된 경우와 제대로 적용되지않은 경우의 비교
+
+## Conclusion
+본 논문에서는 하나의 generator와 discriminator으로 multi-domain image translation을 가능하게 한 StarGAN을 제안했습니다.
+이는 scalability(확장성), robustness(견고성)할 뿐만 아니라 기존의 모델의 비해 high visual quality 의 이미지를 생성하도록 했습니다.
