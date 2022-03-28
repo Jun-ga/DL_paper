@@ -17,4 +17,9 @@
 <img width="633" alt="스크린샷 2022-03-28 오후 12 00 26" src="https://user-images.githubusercontent.com/56713634/160319247-fbe38559-974e-44a8-88be-5924362d7bde.png">
 
 * cross-domain models
-  * 그림 (a)는 4개의 다른 domain간의 이미지 변환을 위해 12개의 네트워크가 필요하다.
+  * 그림 (a)와 같이 4개의 다른 domain간의 이미지 변환을 위해 12개의 네트워크가 필요하다.
+  * 각 데이터셋이 부분적으로 라벨링되어 있기 때문에 서로 다른 데이터셋에서 domain을 공동으로 학습할 수 없다.
+* StarGAN
+  * 모든 가능한 domain사이의 매핑을 하나의 generator(G)를 통해 학습한다.
+    > 이미지와 도메인 정보를 input으로 넣고 유연하게 이미지를 알맞는 도메인으로 바꾸는 것을 학습한다.
+  * 모든 domain의 정보들을 제어할 수 있도록 mask vector를 사용한다.
