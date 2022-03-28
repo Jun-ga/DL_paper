@@ -60,4 +60,59 @@ StarGAN의 목표는 여러 domain간의 매핑을 학습하는 G를 학습시�
 
 ### Reconstruction Loss
 위에서 소개한 loss만으로는 input image의 target domain에 관련한 부분만을 변화시킬때 input image의 본래 형태를 잘 보존할 수 없다. 따라서 generator에 loss를 하나 더 적용한다.
+> CycleGAN에서 사용한 cycle-consistency loss 
+
+<p align="center"><img width="210" alt="스크린샷 2022-03-28 오후 2 47 10" src="https://user-images.githubusercontent.com/56713634/160334221-f7053dcc-b9b8-43e8-bc56-b364833b6c41.png"></p>
+
+* G는 변환된 image G(x,c)와 original domain label c'를 input으로 받고 original image x를 복원하려 한다.
+* L1 norm으로 계산한다.
+
+### Full Objective
+
+<p align="center"><img width="222" alt="스크린샷 2022-03-28 오후 2 51 41" src="https://user-images.githubusercontent.com/56713634/160334591-69c183f9-11af-40bf-95f2-345082d9c0d9.png"></p>
+
+* λ_cls와 λ_rec는 domain 분류와 reconstruction loss들의 상대적 중요도를 control
+* λ_cls = 1, λ_rec = 10을 사용한다.
+
+## Training with Multiple Datasets
+StarGAN은 서로 다른 domain을 가진 dataset을 동시에 포함할 수 있다.
+> CelebA의 머리색 label을 RaFD dataset에 적용할 수 있다.
+
+그러나 다수의 dataset을 학습시킬때 원하는 label 정보가 각 dataset에 부분적으로만 있다는 문제가 발생한다.
+> 모든 데이터 셋이 동등하게 label을 가지고 있는 것이 아니라 어떤 데이터셋은 특정 label만 가지고 있고 다른 데이터 셋은 그 특정 label만을 가지고 있다는 문제
+
+> 변환된 image G(x,c)에서 input image x를 reconstruction을 하려면 label vector c'에 대한 완전한 정보가 필요하기 때문에 문제가 된다.
+
+### Mask Vector
+위의 문제를 해결하기 위한 방안으로 StarGAN이 명시되지않은 label에 대해서는 무시하고 명시된 label에 대해 집중하게 해준다.
+> n차원의 one-hot vector를 사용한다.
+<p align="center"><img width="100" alt="스크린샷 2022-03-28 오후 3 24 45" src="https://user-images.githubusercontent.com/56713634/160338468-75d89ba5-b847-4ef8-854c-4613d5705bbf.png"></p>
+
+* c_i는 i번째 데이터셋의 라벨에 대한 vector
+* 알려져 있는 label의 vector c_i는 binary attributes에 대해서는 binary vector로 표현될 수 있고 카테고리 attributes에 대해서는 one-hot vector로 표현될 수 있다.
+* 남겨진 n-1개의 알려지지 않은 label에 대해서는 zero값으로 지정한다.
+> 본 논문에서는 CelebA와 RaFD dataset을 이용했으므로 n=2가 된다.
+
+### Training Strategy
+* generator는 알려지지 않은 라벨에 대해 무시를 하게 되므로 확실하게 주어진 라벨에 초점을 맞춰 학습하게 된다.
+* generator의 구조는 input label의 차원을 제외하고는 하나의 데이터셋에 대해 학습할 때와 같은 구조이다.
+* discriminator는 classification error만을 최소화 한다.
+  > CelebA 데이터셋 이미지에 대해 학습할 때에는 disciminator가 CelebA attributes(성별, 머리색)에 대해서만 classification error를 최소화하게 되고 RaFD의 표정과 같은 특징들은 무시한다.
   
+  > 다양한 데이터셋을 번갈아가며 학습하며 discriminator는 모든 데이터셋에 관한 discriminative 특징들을 학습하고 generator는 모든 라벨들을 제어하는 것에 대해 학습한다.
+
+## Implementation
+### Improved GAN Training
+학습 과정을 안정화시키고 더 향상시키기 위해서 gradient penalty(λ_gp =10)와 Wasserstein GAN의 objective function을 사용하였다.
+
+<p align="center"><img width="253" alt="스크린샷 2022-03-28 오후 3 55 35" src="https://user-images.githubusercontent.com/56713634/160342640-9fc160b5-665a-4beb-9160-ceb897390989.png"></p>
+
+### Network Architecture
+CycleGAN의 architecture를 baseline으로 사용
+
+* 2개의 convolutional layers로 구성된 generator network이용
+* G만 instance normalization(D는 X)
+
+## Experiments
+
+<p align="center"><img width="682" alt="스크린샷 2022-03-28 오후 4 02 56" src="https://user-images.githubusercontent.com/56713634/160343733-0b08906a-5c67-4d41-b825-6770f5889224.png"></p>
