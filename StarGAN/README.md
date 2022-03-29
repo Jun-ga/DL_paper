@@ -124,6 +124,9 @@ CycleGAN의 architecture를 baseline으로 사용
 * maskvector가 제대로 적용된 경우와 제대로 적용되지않은 경우의 비교
 <p align="center"><img width="586" alt="스크린샷 2022-03-28 오후 4 14 33" src="https://user-images.githubusercontent.com/56713634/160345551-63f486e9-6757-492e-9a63-2ce359c1e138.png"></p>
 
+## Test with Multiple Datasets
+<p align="center"><img width="867" alt="스크린샷 2022-03-29 오후 6 38 17" src="https://user-images.githubusercontent.com/56713634/160582385-3a47677d-2e4c-4b41-8c50-b1dac015bd5b.png"></p>
+
 
 ## Conclusion
 본 논문에서는 하나의 generator와 discriminator으로 multi-domain image translation을 가능하게 한 StarGAN을 제안했습니다.
