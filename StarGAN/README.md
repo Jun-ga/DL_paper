@@ -34,8 +34,8 @@ StarGAN의 목표는 여러 domain간의 매핑을 학습하는 G를 학습시�
 
 ### Adversarial Loss
 * 생성된 이미지를 실제 이미지와 구별할 수 없도록 Adversarial Loss을 채택
-* G는 둘다 조건이 지정된 이미지 G(x,c)를 생성한다.
-* input image x 및 target domain c,D는 실제 이미지와 가짜 이미지를 구별하도록 시도한다.
+* G는 라벨 조건이 지정된 이미지 G(x,c)를 생성한다.
+* D는 실제 이미지와 가짜 이미지를 구별하도록 시도한다.
 
 <p align="center"><img width="228" alt="스크린샷 2022-03-28 오후 2 10 21" src="https://user-images.githubusercontent.com/56713634/160330275-6def309a-69d9-4b8b-8d3b-f9b8de8d2134.png"></p>
 
