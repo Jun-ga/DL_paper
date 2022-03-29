@@ -28,10 +28,10 @@
 * Overview
 <p align="center"><img width="696" alt="스크린샷 2022-03-28 오후 1 00 43" src="https://user-images.githubusercontent.com/56713634/160324352-2f527e17-7cfb-49a5-85b2-038a56f4499e.png"></p>
 
-* (a) D: 진짜 이미지와 가짜 이미지를 구별, 진짜일때 그것과 상응하는 domain을 분류
-* (b) G: input으로 target domain과 이미지를 받고 가짜이미지 생성
-* (c) G: Original domain label을 가지고 가짜이미지를 다시 원래 이미지로 복원
-* (d) D: 진짜 이미지를 구분할 수 없고 D에 의해 target domain으로 분류 가능한 이미지를 생성하도록 한다.
+* (a) 진짜 이미지와 가짜 이미지를 구별, 진짜일때 그것과 상응하는 domain을 분류
+* (b) input으로 target domain과 이미지를 받고 가짜이미지 생성
+* (c) Original domain label을 가지고 가짜이미지를 다시 원래 이미지로 복원
+* (d) 진짜 이미지와 구분할 수 없고 D에 의해 target domain으로 분류 가능한 이미지를 생성하도록 한다.
 
 ## Multi-Domain Image-to-Image Translation
 StarGAN의 목표는 여러 domain간의 매핑을 학습하는 G를 학습시키는 것이다.
