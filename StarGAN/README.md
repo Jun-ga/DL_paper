@@ -118,7 +118,7 @@ CycleGAN의 architecture를 baseline으로 사용
 <p align="center"><img width="682" alt="스크린샷 2022-03-28 오후 4 02 56" src="https://user-images.githubusercontent.com/56713634/160343733-0b08906a-5c67-4d41-b825-6770f5889224.png"></p>
 
 ### CelebA & RaFD
-<p align="center"><img width="482" alt="스크린샷 2022-03-28 오후 4 11 24" src="https://user-images.githubusercontent.com/56713634/160345055-d1af5dc3-8f66-485c-9aa6-ad534d84a7d3.png"></p>
+<p align="center"><img width="922" alt="스크린샷 2022-03-29 오후 6 41 35" src="https://user-images.githubusercontent.com/56713634/160583055-b3acae2c-d232-49cd-a80a-e11e9d921dd5.png"></p>
 
 ### Maskvector
 * maskvector가 제대로 적용된 경우와 제대로 적용되지않은 경우의 비교
