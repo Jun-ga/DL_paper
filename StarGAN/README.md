@@ -35,7 +35,7 @@
 
 ## Multi-Domain Image-to-Image Translation
 StarGAN의 목표는 여러 domain간의 매핑을 학습하는 G를 학습시키는 것이다.
-이를 위해서는 input x를 target domain 라벨 c의 조건에서 output image y로 변환시키도록 G를 학습한다.
+이를 위해서는 input x를 target domain label c의 조건에서 output image y로 변환시키도록 G를 학습한다.
 
 ### Adversarial Loss
 * 생성된 이미지를 실제 이미지와 구별할 수 없도록 Adversarial Loss을 채택
@@ -50,8 +50,9 @@ StarGAN의 목표는 여러 domain간의 매핑을 학습하는 G를 학습시�
 
 ### Domain Classification Loss
 주어진 input image x와 target image labal c에 대해 x를 target domain c로 분류된 output image y로 변환한다.
-> 이를 만족하기 위해서 auxiliary classifier를 추가하고 D와 G를 최적화한다.
-> 예를 들어 셀럽 이미지 x를 target domain(금발머리) c로 변환하는 것
+
+_예를 들어 셀럽 이미지 x를 target domain(금발머리) c로 변환하는 것_
+> 이를 만족하기 위해서 auxiliary classifier를 D위에 추가하고 D와 G를 최적화한다.
 
 * 진짜 이미지의 domain classification loss : 판별자를 최적화하기 위함
 <p align="center"><img width="170" alt="스크린샷 2022-03-28 오후 2 28 49" src="https://user-images.githubusercontent.com/56713634/160332144-00d86073-2bde-4361-aa0b-0ef1b2b6b290.png"></p> 
