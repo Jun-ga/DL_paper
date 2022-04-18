@@ -13,5 +13,7 @@
 
 
 # CONVNET CONFIGURATIONS
+depth 증가에 따른 ConvNet의 공정한 성능측정을 위해 모든 ConvNet 계층구성은 동일한 원칙을 사용해 설계
+
 ## ARCHITECTURE
 
