@@ -1,6 +1,6 @@
 # *Very Deep Convolutional Networks for Large-Scale Image Recognition*
-# Abstract
-* 3x3 convolution filter를 가진 architecture를 이용하여 depth를 증가시킨 netwo
+# ABSTRACT
+* 3x3 convolution filter를 가진 architecture를 이용하여 depth를 증가시킨 network
 
 
 # INTRODUCTION
