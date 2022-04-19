@@ -34,9 +34,8 @@ depth 증가에 따른 ConvNet의 공정한 성능측정을 위해 모든 ConvNe
 * 처음 두개의 FC layer : 4096 channel 
 * 마지막 FC layer : 1000개 -> 1000way ILSVRC 분류를 수행, 각 clas마다 한개의 channel을 가짐
 * Softmax activation function at last
-   
-<p align="center">
-![1__Lg1i7wv1pLpzp2F4MLrvw](https://user-images.githubusercontent.com/56713634/163918316-4afd1c4a-7a60-43bb-8165-ea53e43bb4f7.png)
+
+<p align="center"><img width="375" alt="1__Lg1i7wv1pLpzp2F4MLrvw" src="https://user-images.githubusercontent.com/56713634/163918594-324779dc-7568-43e8-a8fd-befa6109488c.png">
 </p>
 
 ## CONFIGURATIONS
