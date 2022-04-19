@@ -52,7 +52,7 @@ depth 증가에 따른 ConvNet의 공정한 성능측정을 위해 모든 ConvNe
 
 ## DISCUSSION
 * network 전체에 여러 개의 3x3 필터를 사용함 
-* layer 사이에 sptial pooling이 없는 2개의 3x3 conv layer stack이 5x5 receptive field를 가짐
+* layer 사이에 pooling이 없는 2개의 3x3 conv layer stack이 5x5 receptive field를 가짐
 * 3개의 3x3 conv layer는 7x7 receptive field를 가짐
 * __단일 7x7 layer 대신 3개의 3x3 conv layer를 사용하면서 얻는 이점__
   * 네트워크의 nonlinearity를 늘릴 수 있다. *(결정함수의 비선형성 증가 > 의사결정 기능을 더욱 차별화)*
