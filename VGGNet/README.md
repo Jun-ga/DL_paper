@@ -38,3 +38,8 @@ depth 증가에 따른 ConvNet의 공정한 성능측정을 위해 모든 ConvNe
 구조사진 찾아서 넣기, 표넣기
 
 ## CONFIGURATIONS
+<p align="center"><img width="375" alt="스크린샷 2022-04-19 오전 10 39 39" src="https://user-images.githubusercontent.com/56713634/163903178-25114e14-d6ef-4cf2-98dc-d71c0a274c1e.png"></p>
+  
+### table 1
+* configuration의 depth는 A부터 E로 증가하며 layer가 더 추가됨
+
