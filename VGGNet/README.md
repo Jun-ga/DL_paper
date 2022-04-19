@@ -107,4 +107,53 @@ depth 증가에 따른 ConvNet의 공정한 성능측정을 위해 모든 ConvNe
 
 ## IMPLEMENTATION DETAILS
 * 4개의 GPU 사용
-* 전체 batch의 gradient를 
+* 전체 batch의 gradient를 얻기 위해 각 GPU batch gradients는 계산되어 평균
+* 모든 GPU에서 동시에 gradient가 계산되어 한개의 GPU에서 얻는 결과와 정확히 일치
+* 4개의 GPU를 사용함으로써 3.75배 속도 향상
+
+# CLASSIFICATION EXPERIMENTS
+ILSVRC-2012 dataset에 대해 설명된 ConvNet architecture가 이뤄낸 image classification 결과를 제시 해당 데이터셋에는 1000 클래스가 넘는 이미지를 포함하고 있으며 분류성능은 top-1과 top-5로 평가
+
+## SINGLE SCALE EVALUATION
+
+* test image size
+<p align="center"><img width="539" alt="스크린샷 2022-04-19 오후 12 50 48" src="https://user-images.githubusercontent.com/56713634/163916651-7fb6e0d7-5648-4e1c-aaf4-8067a328b3d0.png"></p>
+
+<p align="center"><img width="347" alt="스크린샷 2022-04-19 오후 12 48 44" src="https://user-images.githubusercontent.com/56713634/163916459-63e1629c-002c-4aca-9408-9cba57d3f16b.png"></p>
+
+* B < C : non-linearity가 성능 향상에 도움
+* C < D : 같은 depth이지만 성능이 떨어짐 -> conv filter를 사용하여 spatial context 파악 중요
+* Fixed S(256, 384) 때보다 scale jittering at training time S∈Smin, Smax  가
+성능 좋음 -> scale jittering에 의한 training set augmentation이 multi-scale image
+statistics를 파악하는데 도움
+
+## MULTI-SCALE EVALUATION
+<p align="center"><img width="337" alt="스크린샷 2022-04-19 오후 12 55 42" src="https://user-images.githubusercontent.com/56713634/163917093-519565b0-d509-4f92-8ab8-0760acf9d07e.png"></p>
+
+* test에서의 scale jittering 효과 확인
+* single-scale보다 multi-scale에서 성능향상
+
+## MULTI-CROP EVALUATION
+
+<p align="center">
+<img width="348" alt="스크린샷 2022-04-19 오후 12 57 39" src="https://user-images.githubusercontent.com/56713634/163917274-51dad5fc-1377-4495-a67e-3bde684780df.png">
+</p>
+* Dense evaluation과 mult-crop evaluation 비교
+* muit-crop evalution이 연산량이 많지만 더 좋은 결과
+* 상호 보완적인 관계이기때문에 둘을 조합해서 사용하면 더 좋은 결과
+
+## COMPARISON WITH THE STATE OF THE ART
+<p align="center">
+<img width="361" alt="스크린샷 2022-04-19 오후 1 02 19" src="https://user-images.githubusercontent.com/56713634/163917802-f1e22b07-472e-40f3-9823-03252f5115dc.png">
+</p>
+* 더 단순하고 효과적인 방법으로 인하여 GoogLeNet보다 많이 사용
+
+# CONCLUSION
+* large scale image classification을 위한 deep CNN을 개발
+* 더 복잡한 네트워크보다 더 좋은 성능을 가짐
+* 기존 ConvNet architecture보다 작은 receptive field 사용(3x3, 1 stride)
+* 최대 19 depth까지 weight layer를 deep하게 설계하여 좋은 성능 이끌어냄
+
+
+
+
