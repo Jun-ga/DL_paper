@@ -47,7 +47,7 @@ depth 증가에 따른 ConvNet의 공정한 성능측정을 위해 모든 ConvNe
 * 첫번째 layer 64개에서 마지막 layer 512개에 도달할 때까지 max pooling 이후에 2배씩 증가
 
 ### table 2
-* 각 구성에 대한 parameterS
+* 각 구성에 대한 parameters
 * 더 depth가 깊지만 weight의 수는 많지 않음
 
 ## DISCUSSION
@@ -69,7 +69,8 @@ depth 증가에 따른 ConvNet의 공정한 성능측정을 위해 모든 ConvNe
   > 깊은 층과 작은 컨볼루션 필터사이즈에 의해 시행되는 암시된 정규화와 몇몇층에서 시행되는 사전 초기화 때문
 
 * 네트워크의 가중치 초기화가 가장 중요
-  * Deep net에서의 gradient의 불안정성으로 인한 학습 지연을 막기 위해 network 가중치의 초기화가 중요, 학습 지연 막기 위해 무작위 초기화로 교육될 정도로 얕은 구성 A (Table 1)부터 학습 시작
+  * Deep net에서의 gradient의 불안정성으로 인한 학습 지연을 막기 위해 network 가중치의 초기화가 중요, 학습 지연 막기 위해 무작위 초기화로 교육될 정도로 얕은 구성 
+  * A (Table 1)부터 학습 시작
   * 더 깊은 architecture을 훈련할 때, 처음 네 개의 conv layer과 마지막 세 개의 FC layer를 net A의 layer로 초기(중간 layer들은 무작위로 초기화)
   * 무작위로 초기화하기 위해 평균은 0, 분산은 10^(-2)인 정규분포에서 가중치를 sampling biases는 0으로 초기화
 * 224x224 크기의 ConvNet input image 얻기 위해 rescaled training image를 무작위로 crop
