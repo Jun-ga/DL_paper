@@ -69,7 +69,7 @@ Inception의 핵심 아이디어는 convolutional vision network에서 최적의
 _LeNet5에 대한 경의의 표현으로 GoogLeNe이라는 팀명을 정했다._
 * Inception moodule을 더 깊고 넓게 구성했지만 성능이 조금 떨어졌으며 이에, ensemble을 함께 적용했다.
 
-<p align="center"><img width="693" alt="스크린샷 2022-05-09 오전 3 37 56" src="https://user-images.githubusercontent.com/56713634/167310606-6aa93f0ab-c3ed-4864-87d7-77ddaad88172.png"></p>
+<p align="center"><img width="693" alt="스크린샷 2022-05-09 오전 3 37 56" src="https://user-images.githubusercontent.com/56713634/167311640-9ff1dcfc-9f93-43e2-bf24-984545131f73.png"></p>
 
 * input size 224 x 224
 * "#3✕3 reduce"와 "#5✕5 reduce"는 3✕3와 5✕5 convolution 이전에 사용된 축소 계층의 1✕1 필터의 개수
