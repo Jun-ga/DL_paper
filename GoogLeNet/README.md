@@ -49,4 +49,17 @@ Inception의 핵심 아이디어는 convolutional vision network에서 최적의
 <p align="center"><img width="697" alt="스크린샷 2022-05-09 오전 2 55 47" src="https://user-images.githubusercontent.com/56713634/167309137-5bee1db3-c538-4d3a-a627-cf73e5ccec35.png"></p>
 
 
-* 
+* Inception module이 쌓이면서 출력값의 특징이 달라지게 되는데 이는 더 높은 수준의 추상화 특징이 더 높은 계층에 의해 포착될 수록 그들의 공간적인 집중도도 줄어든다.
+  > 3x3, 5x5 convolutional filter의 수도 증가할 것으로 추정 됨 
+* __(a) module의 가장 큰 문제는 연산량 증가__
+* pooling layer의 출력을 다른 convolution layer의 출력과 함께 concatenate할때 필터수가 module 입력에 비해 증가하게되고, 더욱 심한 연산량 증가를 야기한다. 
+
+* 이 문제를 해결하기 위해 1x1 convolutional filter를 이용하여 차원을 축소했다
+  > 3x3, 5x5 convoluton 앞에 1x1을 두어 차원을 줄여 연산량을 낮춤
+
+* 또한, Inception module은 높은 layer에서만 사용하고 낮은 layer에서는 기본적인 CNN 모델을 사용했다. _효율적인 메모리 사용을 위함_
+
+### 이러한 특징을 가진 Inception module을 사용하면 아래 두가지 효과를 가질 수 있다.
+1. 연산량에 구애받지않고 각 단계의 유낫수를 증가시킬 수 있다.
+    > 이는 차원 축소의 사용을 통해 가능
+2. visual 정보는 다양한 scale에 대해 처리한 다음 그 다음 단계가동시에 서로 다른 scale에서 특징을 추출할 수 있도록 한다.
