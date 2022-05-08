@@ -23,4 +23,9 @@
   > convolution layer들을 쌓고 그 뒤에 FC layer를 쌓는 구조 <br>
 * 2014년 기준 트렌드는 layer 수를 늘리고, overfitting을 피하기 위해 dropout을 사용
 * maxpooling layer가 손실을 초래하지만 CNN은 localization(현지화), object detection(객체 탐지), human pose estimation(인간 자세 추정)
-*  
+* 신경망의 표현력을 높이기 위해 제안된 접근법인 Network in Network 논문에 많은 영향을 받음
+  > 1x1 conv layer가 추가되며, relu가 뛰따름 이때, 1x1 conv layer는 병목형산을 제거하기 위한 차원 축소와 네트워크 크기를 제한하는 용도로 사용된다.
+
+## Motivation and High Level Considerations
+심층 신경맘의 성능을 향상시키는 가장 간단한 방법  = 신경망의 크기를 늘리는 것(depth와 width의 증가)
+
