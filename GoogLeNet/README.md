@@ -29,3 +29,24 @@
 ## Motivation and High Level Considerations
 심층 신경맘의 성능을 향상시키는 가장 간단한 방법  = 신경망의 크기를 늘리는 것(depth와 width의 증가)
 
+* 신경망의 크기를 늘리는 것은 두가지 결점이 존재
+  1. 학습할 파라미터의 수가 증가하면서 overfitting을 초래
+  2. computational 자원이 더 많이 필요하게 됨
+
+* 이 두가지 문제를 해결하는 근본적인 방법은 __dense한 Fully Connected 구조에서 Soarseky Connected 구조로 바꾸는 것__
+ <p align="center"><img width="670" alt="스크린샷 2022-05-09 오전 2 15 00" src="https://user-images.githubusercontent.com/56713634/167307584-98b73957-1e11-4b61-9b99-927d8bf1f35f.png"></p>
+
+* ㅎ
+
+
+## Architectural Details
+Inception의 핵심 아이디어는 convolutional vision network에서 최적의 local sparse 구조를 어떻게 하면 현재 사용 가능한 dense component로 구성할지에서 기반
+
+* 본 논문에서는 패치 정렬 문제를 피하기 위해 filter size를 1x1,3x3,5x5로 제한했다.
+  > 이는 필수가 아닌 편의성을 위한 결정이다. 이 계층들은 출력 filter bank가 하나의 출력 벡터로 연결되어 다음 단계에 대한 입력을 형성한다.
+* convolutional 네트워크 기술에서 pooling 연산은 핵심 기능이기때문에 alternative 병렬 pooling 경로를 추가한다.
+
+<p align="center"><img width="697" alt="스크린샷 2022-05-09 오전 2 55 47" src="https://user-images.githubusercontent.com/56713634/167309137-5bee1db3-c538-4d3a-a627-cf73e5ccec35.png"></p>
+
+
+* 
