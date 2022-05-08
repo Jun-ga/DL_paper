@@ -5,7 +5,7 @@
 * 정교한 설계로 depth와 width를 늘려도 연산량이 증가하지 않고 유지됨
 * Hebbian principle과 multi-scale processing을 기반으로 함
 
-## introduction
+## Introduction
 * deep learning, convolutional networks의 발전으로 객체 분류 및 탐지 기능이 크게 향상됨
 * 이러한 발전은 하드웨어의 발전뿐만 아니라 네트워크 구조에 대한 새로운 아이디어와 알고리즘, 개선된 신경망 구조의 결과
   > GoogLeNet은 AlexNet에 비해 12배 작은 파라티머를 가지면서 더 정확한 성능을 가짐
@@ -36,7 +36,7 @@
 * 이 두가지 문제를 해결하는 근본적인 방법은 __dense한 Fully Connected 구조에서 Soarseky Connected 구조로 바꾸는 것__
  <p align="center"><img width="670" alt="스크린샷 2022-05-09 오전 2 15 00" src="https://user-images.githubusercontent.com/56713634/167307584-98b73957-1e11-4b61-9b99-927d8bf1f35f.png"></p>
 
-* ㅎ
+더 작성해야하는 부분임
 
 
 ## Architectural Details
@@ -63,3 +63,49 @@ Inception의 핵심 아이디어는 convolutional vision network에서 최적의
 1. 연산량에 구애받지않고 각 단계의 유낫수를 증가시킬 수 있다.
     > 이는 차원 축소의 사용을 통해 가능
 2. visual 정보는 다양한 scale에 대해 처리한 다음 그 다음 단계가동시에 서로 다른 scale에서 특징을 추출할 수 있도록 한다.
+
+
+## GoogLeNet
+_LeNet5에 대한 경의의 표현으로 GoogLeNe이라는 팀명을 정했다._
+* Inception moodule을 더 깊고 넓게 구성했지만 성능이 조금 떨어졌으며 이에, ensemble을 함께 적용했다.
+
+<p align="center"><img width="693" alt="스크린샷 2022-05-09 오전 3 37 56" src="https://user-images.githubusercontent.com/56713634/167310606-6aa93f0ab-c3ed-4864-87d7-77ddaad88172.png"></p>
+
+* input size 224 x 224
+* "#3✕3 reduce"와 "#5✕5 reduce"는 3✕3와 5✕5 convolution 이전에 사용된 축소 계층의 1✕1 필터의 개수
+* pool proj는 max-pooling 이후의 1x1 conv layer의 필터의 수
+* 든 reduction과 projection 또한 ReLU가 적용
+
+__network가 깊어지면서 gradient를 효율적으로 연전파시키는 것이 중요해짐__
+* 이에, auxiliary classifier를 network의 Inceptaion 4a와 Inception 4d 뒤에 추가
+* 학습중에는 auxiliary classifier의 출력의 0.3을 곱해서 전체 loss에 더해지고, 테스트 시에는 아예 auxiliary classifier를 사용하지 않음
+
+__Auxiliary classifier의 구성요소__
+
+* Inception 4a와 Inception 4d 뒤에 5x5, stride 3인 a$verage pooling
+* 필터의 수가 128인 1x1 conv layer 및 ReLU
+* 유닛의 개수가 1024개인 fc layer 및 ReLU
+* p=0.7의 dropout
+* 유닛의 개수가 1000개인 fc layer
+
+<p align="center"><img width="698" alt="스크린샷 2022-05-09 오전 3 48 30" src="https://user-images.githubusercontent.com/56713634/167310994-d7764066-1b5d-48ef-8c82-348c7a0b5ef9.png"></p>
+
+## Training Methodology
+
+* Optimizer: Asynchronous SGD with 0.9 momentum
+* Learning rate : 8 epochs 마다 4%씩 감소
+* 본래 사이즈의 8%에서 100%까지 고르게 분포된 사이즈를 가지며 가로 세로의 비율을 3:4, 4:3사이로 유지하여 샘플링함
+  > GoogLeNet은 샘플링 방법을 매우 자주 바꿈, 위의 방법이 가장 효과적으로 보인 것
+
+## ILSVRC 2014 Classification Challenge Setup and Results
+
+<p align="center"><img width="694" alt="스크린샷 2022-05-09 오전 3 57 57" src="https://user-images.githubusercontent.com/56713634/167311393-7824c578-7716-47e8-a782-fbc50840710b.png"></p>
+
+## ILSVRC 2014 Detection Challenge Setup and Results
+
+<p align="center"><img width="700" alt="스크린샷 2022-05-09 오전 3 58 39" src="https://user-images.githubusercontent.com/56713634/167311448-822bfa66-51e1-4b22-af6b-fa06a9ecafd3.png"></p>
+
+
+## Conclusions
+
+Inception의 결과는 추측한 최적의 sparse 구조를 준비된 밀집된 빌딩 블록을 통해 근사하는 것은 컴퓨터 비전을 위한 신경망의 성능을 개선하는 현실적인 방법임에 대한 강력한 증거가 되는 것으로 보인다. 대 장점은 얕으면서 넓은 네트워크에 있어 계산 소요가 얼마 증가되지 않았음에도 성능이 개선이 되었다는 점이다.
