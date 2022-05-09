@@ -33,16 +33,19 @@
   1. 학습할 파라미터의 수가 증가하면서 overfitting을 초래
   2. computational 자원이 더 많이 필요하게 됨
 
-* 이 두가지 문제를 해결하는 근본적인 방법은 __dense한 Fully Connected 구조에서 Soarseky Connected 구조로 바꾸는 것__
+* 이 두가지 문제를 해결하는 근본적인 방법은 __dense한 Fully Connected 구조에서 Sparsely Connected 구조로 바꾸는 것__
  <p align="center"><img width="670" alt="스크린샷 2022-05-09 오전 2 15 00" src="https://user-images.githubusercontent.com/56713634/167307584-98b73957-1e11-4b61-9b99-927d8bf1f35f.png"></p>
 
-더 작성해야하는 부분임
+  > 입력 layer에서 출력 layer로 향하는 layer 간의 관계를 통계적으로 분석한 후, 연관 관계가 높은 것들만 연결하여 최적의 Sparse 한 네트워크 가능
+
+* 하지만, 현재의 하드웨어는 sparse한 연산에는 바효율적이다.
+* 이에, 본 논문에서는 sparse 메트릭스를 효율적으로 계산하기 위해서 상대적으로 밀도가 높은 하위 dense 메트릭스로 Clustering함(군집화)
 
 
 ## Architectural Details
 Inception의 핵심 아이디어는 convolutional vision network에서 최적의 local sparse 구조를 어떻게 하면 현재 사용 가능한 dense component로 구성할지에서 기반
 
-* 본 논문에서는 패치 정렬 문제를 피하기 위해 filter size를 1x1,3x3,5x5로 제한했다.
+* 본 논문에서는 filter size를 1x1,3x3,5x5로 제한했다.
   > 이는 필수가 아닌 편의성을 위한 결정이다. 이 계층들은 출력 filter bank가 하나의 출력 벡터로 연결되어 다음 단계에 대한 입력을 형성한다.
 * convolutional 네트워크 기술에서 pooling 연산은 핵심 기능이기때문에 alternative 병렬 pooling 경로를 추가한다.
 
@@ -56,6 +59,9 @@ Inception의 핵심 아이디어는 convolutional vision network에서 최적의
 
 * 이 문제를 해결하기 위해 1x1 convolutional filter를 이용하여 차원을 축소했다
   > 3x3, 5x5 convoluton 앞에 1x1을 두어 차원을 줄여 연산량을 낮춤
+
+<p align="center"><img width="664" alt="스크린샷 2022-05-09 오전 11 55 57" src="https://user-images.githubusercontent.com/56713634/167332969-70e1dae7-d4eb-4f34-ba89-f05cf1295b54.png"></p>
+
 
 * 또한, Inception module은 높은 layer에서만 사용하고 낮은 layer에서는 기본적인 CNN 모델을 사용했다. _효율적인 메모리 사용을 위함_
 
@@ -80,6 +86,10 @@ __network가 깊어지면서 gradient를 효율적으로 연전파시키는 것�
 * 이에, auxiliary classifier를 network의 Inceptaion 4a와 Inception 4d 뒤에 추가
 * 학습중에는 auxiliary classifier의 출력의 0.3을 곱해서 전체 loss에 더해지고, 테스트 시에는 아예 auxiliary classifier를 사용하지 않음
 
+__Auxiliary classifier__
+* 중간 단계에서 예측하는 부분
+* 깊은 네트워크에서 학습이 잘 안될 수 있는 점을 보완하기 위해 추가적인 gradient를 줌
+
 __Auxiliary classifier의 구성요소__
 
 * Inception 4a와 Inception 4d 뒤에 5x5, stride 3인 a$verage pooling
@@ -87,6 +97,14 @@ __Auxiliary classifier의 구성요소__
 * 유닛의 개수가 1024개인 fc layer 및 ReLU
 * p=0.7의 dropout
 * 유닛의 개수가 1000개인 fc layer
+
+__Global average pooling(GAP)__
+* 이전 layer에서 추출된 feature map을 각각 평균 낸것을 이어 1차원 벡터로 만들어줌
+* 이렇게 된다면 가중치의 개수를 상당히 줄여준다.
+
+<p align="center"><img width="699" alt="스크린샷 2022-05-09 오후 12 30 28" src="https://user-images.githubusercontent.com/56713634/167335958-b564d1ff-4cf0-4bb6-aad8-7ddb689bddeb.png"></p>
+
+### GoogLeNet 구조
 
 <p align="center"><img width="698" alt="스크린샷 2022-05-09 오전 3 48 30" src="https://user-images.githubusercontent.com/56713634/167310994-d7764066-1b5d-48ef-8c82-348c7a0b5ef9.png"></p>
 
