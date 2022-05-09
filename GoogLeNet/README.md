@@ -8,7 +8,7 @@
 ## Introduction
 * deep learning, convolutional networks의 발전으로 객체 분류 및 탐지 기능이 크게 향상됨
 * 이러한 발전은 하드웨어의 발전뿐만 아니라 네트워크 구조에 대한 새로운 아이디어와 알고리즘, 개선된 신경망 구조의 결과
-  > GoogLeNet은 AlexNet에 비해 12배 작은 파라티머를 가지면서 더 정확한 성능을 가짐
+  > GoogLeNet은 AlexNet에 비해 12배 작은 파라를 가지면서 더 정확한 성능을 가짐
 * 모바일 및 임베디드 컴퓨팅의 지속적인 관심으로 알고리즘의 효율성, 특히 전력 메모리 사용이 중요해지고 있다.
   > 이에, GoogLeNet은 inference시에 multiply-adds(합성곱)을 1.5 billion이하로 지정하여 설계함 -> 대규모 데이터셋에서 합리적임
 * Inception 모듈은 영화 인셉션의 대사인 "We need to go deeper"에서 유래했다.
@@ -24,10 +24,10 @@
 * 2014년 기준 트렌드는 layer 수를 늘리고, overfitting을 피하기 위해 dropout을 사용
 * maxpooling layer가 손실을 초래하지만 CNN은 localization(현지화), object detection(객체 탐지), human pose estimation(인간 자세 추정)
 * 신경망의 표현력을 높이기 위해 제안된 접근법인 Network in Network 논문에 많은 영향을 받음
-  > 1x1 conv layer가 추가되며, relu가 뛰따름 이때, 1x1 conv layer는 병목형산을 제거하기 위한 차원 축소와 네트워크 크기를 제한하는 용도로 사용된다.
+  > 1x1 conv layer가 추가되며, relu가 뛰따름 이때, 1x1 conv layer는 병목형상을 제거하기 위한 차원 축소와 네트워크 크기를 제한하는 용도로 사용된다.
 
 ## Motivation and High Level Considerations
-심층 신경맘의 성능을 향상시키는 가장 간단한 방법  = 신경망의 크기를 늘리는 것(depth와 width의 증가)
+심층 신경망의 성능을 향상시키는 가장 간단한 방법  = 신경망의 크기를 늘리는 것(depth와 width의 증가)
 
 * 신경망의 크기를 늘리는 것은 두가지 결점이 존재
   1. 학습할 파라미터의 수가 증가하면서 overfitting을 초래
@@ -38,7 +38,7 @@
 
   > 입력 layer에서 출력 layer로 향하는 layer 간의 관계를 통계적으로 분석한 후, 연관 관계가 높은 것들만 연결하여 최적의 Sparse 한 네트워크 가능
 
-* 하지만, 현재의 하드웨어는 sparse한 연산에는 바효율적이다.
+* 하지만, 현재의 하드웨어는 sparse한 연산에는 비효율적이다.
 * 이에, 본 논문에서는 sparse 메트릭스를 효율적으로 계산하기 위해서 상대적으로 밀도가 높은 하위 dense 메트릭스로 Clustering함(군집화)
 
 
@@ -66,9 +66,9 @@ Inception의 핵심 아이디어는 convolutional vision network에서 최적의
 * 또한, Inception module은 높은 layer에서만 사용하고 낮은 layer에서는 기본적인 CNN 모델을 사용했다. _효율적인 메모리 사용을 위함_
 
 ### 이러한 특징을 가진 Inception module을 사용하면 아래 두가지 효과를 가질 수 있다.
-1. 연산량에 구애받지않고 각 단계의 유낫수를 증가시킬 수 있다.
+1. 연산량에 구애받지않고 각 단계의 유닛수를 증가시킬 수 있다.
     > 이는 차원 축소의 사용을 통해 가능
-2. visual 정보는 다양한 scale에 대해 처리한 다음 그 다음 단계가동시에 서로 다른 scale에서 특징을 추출할 수 있도록 한다.
+2. visual 정보는 다양한 scale에 대해 처리한 다음 그 다음 단계 가동시에 서로 다른 scale에서 특징을 추출할 수 있도록 한다.
 
 
 ## GoogLeNet
