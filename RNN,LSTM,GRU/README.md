@@ -69,8 +69,32 @@ RNN의 문제를 해결하기 위해 고안된 방
 * forget gate의 출력값이 0이라면, 오직 input gate의 결과만 현재시점의 cell 값을 결정
 * input gate가 0 이라면 현재시점의 cell값은 이전 시점의 cell값에만 의존
 * __forget gate는 이전 시점의 입력을 얼마나 반영할지, input gate는 현재 시점의 입력을 얼마나 반영할지 결정__
+  > 정보를 선택적으로 활용 <\br>
+  > cell state는 각 gate의 결과를 더함으로 시퀀스가 길더라고 gradient를 잘 전파함
 
 #### output state
 Memory cell을 얼마나 사용할지 결정하기 위한 게이트
 
 <p align="center"><img width="272" alt="스크린샷 2022-05-24 오후 1 11 59" src="https://user-images.githubusercontent.com/56713634/169947355-44fba368-496e-48cd-9cca-edfbbdb535a9.png"></p>
+
+* 현재 시점 t의 x갑과 이전 시점 t-1의 hidden sta
+* te가 시그모이드 함수를 지난 값은 현재 시점 t의 은닉 상태를 결정
+* 은닉상태 = 단기 상태, 장기상태의 값이 tanh함수를 지나 -1과 1사이의 값
+* 즉, 현 시점의 hidden state는 현 시점의 cell state와 함께 계산되며 출력됨과 동시에 다음 hidden state로 넘김
+
+
+## GRU(Gated Reccurent Unit)
+LSTM의 구조를 조금 더 간단하게 개선한 모델
+
+<p align="center"><img width="495" alt="스크린샷 2022-05-24 오후 1 27 35" src="https://user-images.githubusercontent.com/56713634/169948918-22223ded-256a-45bc-a9e4-2065af1c75ba.png"></p>
+
+<p align="center"><img width="463" alt="스크린샷 2022-05-24 오후 1 28 46" src="https://user-images.githubusercontent.com/56713634/169949058-1f86ffcb-59f9-4d9b-88ca-464001c9ef0b.png"></p>
+
+
+
+### 특징
+* LSTM보다 간단한 구조면서 긴 데이터를 잘 처리함
+* Memory cell 사용 x
+  > cell stata와 hidden state가 합쳐져 하나의 hidden state로 표현
+* reset gate, update gate 총 2개의 gate만을 사용
+* 
