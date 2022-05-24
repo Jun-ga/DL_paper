@@ -86,15 +86,26 @@ Memory cell을 얼마나 사용할지 결정하기 위한 게이트
 ## GRU(Gated Reccurent Unit)
 LSTM의 구조를 조금 더 간단하게 개선한 모델
 
-<p align="center"><img width="495" alt="스크린샷 2022-05-24 오후 1 27 35" src="https://user-images.githubusercontent.com/56713634/169948918-22223ded-256a-45bc-a9e4-2065af1c75ba.png"></p>
-
-<p align="center"><img width="463" alt="스크린샷 2022-05-24 오후 1 28 46" src="https://user-images.githubusercontent.com/56713634/169949058-1f86ffcb-59f9-4d9b-88ca-464001c9ef0b.png"></p>
-
-
+<p align="center"><img width="564" alt="스크린샷 2022-05-24 오후 1 30 44" src="https://user-images.githubusercontent.com/56713634/169949300-51faa60c-277a-4842-ac7b-cff4645df703.png"></p>
 
 ### 특징
 * LSTM보다 간단한 구조면서 긴 데이터를 잘 처리함
 * Memory cell 사용 x
   > cell stata와 hidden state가 합쳐져 하나의 hidden state로 표현
 * reset gate, update gate 총 2개의 gate만을 사용
-* 
+
+#### reset gata
+지난 정보를 얼마나 버릴지 결정하기 위한 게이트
+* 이전 시점의 hidden state와 현 시점의 x를 시그모이드 함수에 적용하여 구하는 방식 식(2)
+  > 결과값은 0과 1 사이 값 =  이전 hidden state의 값을 얼마나 활용할지에 대한 정보
+* 식(3)을 통해 현재 시점에 과거의 정보를 얼마나 사용할지 정함
+  > 전 시점의 hidden state에 reset gate를 곱함
+
+#### updata gate
+정보를 얼마나 반영할지 결정하는 게이트
+* 식(1)에서 구한 결과 z는 현재 정보를 얼마나 사용할지 반영
+* (1-z)는 과거 정보에 대해 얼마나 사용할지 반영
+  > 이는 LSTM의 input, forget gate로 볼 수 있음
+* 식(4)를 통해 현 시점의 hidden state를 구할 수 있음
+
+
