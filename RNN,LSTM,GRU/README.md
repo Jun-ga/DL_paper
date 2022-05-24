@@ -17,7 +17,7 @@
 
 * 입력 갯수와 출력 갯수에 따라 one to many, many to one, many to many로 나뉨
 * 순서대로 처리가 되므로 속도가 느리다.
-* 입력데이터의 길이가 길어지게 된다면 gradint가 매우 작아져 전달이 안됨 = Gradient Vanishing
+* 입력데이터의 길이가 길어지게 된다면 gradient가 매우 작아져 전달이 안됨 = Gradient Vanishing
   > 이를 해결한 방법이 LSTM
 
 
@@ -40,7 +40,7 @@ RNN의 문제를 해결하기 위해 고안된 방식
 * long term state를 위해 Memory cell을 추가
 <p align="center"><img width="471" alt="스크린샷 2022-05-24 오후 12 34 27" src="https://user-images.githubusercontent.com/56713634/169943540-296d4caf-3ea6-4b79-8b53-e8103c713919.png"></p>
 * hidden state와 Memory cell을 구하기 위해 3개의 gate가 추가됨
-  > 이를 통해, 불필요한 기억은 지우고 기억해야할 것들을 정함
+  > 이를 통해, 불필요한 기억은 지우고 기억해야할 것들을 정함 <br>
   > h_t는 단기상태, c_t는 장기상태
 
 #### input gate
@@ -69,7 +69,7 @@ RNN의 문제를 해결하기 위해 고안된 방식
 * forget gate의 출력값이 0이라면, 오직 input gate의 결과만 현재시점의 cell 값을 결정
 * input gate가 0 이라면 현재시점의 cell값은 이전 시점의 cell값에만 의존
 * __forget gate는 이전 시점의 입력을 얼마나 반영할지, input gate는 현재 시점의 입력을 얼마나 반영할지 결정__
-  > 정보를 선택적으로 활용 <\br>
+  > 정보를 선택적으로 활용 <br>
   > cell state는 각 gate의 결과를 더함으로 시퀀스가 길더라고 gradient를 잘 전파함
 
 #### output state
