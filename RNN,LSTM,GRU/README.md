@@ -18,6 +18,7 @@
 * 입력 갯수와 출력 갯수에 따라 one to many, many to one, many to many로 나뉨
 * 순서대로 처리가 되므로 속도가 느리다.
 * 입력데이터의 길이가 길어지게 된다면 gradint가 매우 작아져 전달이 안됨 = Gradient Vanishing
+  > 이를 해결한 방법이 LSTM
 
 
 ### 수식
@@ -43,3 +44,33 @@ RNN의 문제를 해결하기 위해 고안된 방
   > h_t는 단기상태, c_t는 장기상태
 
 #### input gate
+현재 정보를 기억하기 위한 게이트
+
+<p align="center"><img width="276" alt="스크린샷 2022-05-24 오후 12 37 49" src="https://user-images.githubusercontent.com/56713634/169943982-841efb56-a3cb-4592-8f36-b5e32348b01c.png"></p>
+
+* 시그모이드 함수를 지나 0 과 1 사이의 값과 thanh(하이퍼볼릭탄젠트함수)를 지나 -1 과 1 사이의 값 두 개가 나온다.
+* 이 값을 통해 선택된 기억할 정보의 양을 정함
+
+#### foget gate
+기억을 삭제하기 위한 게이트
+
+<p align="center"><img width="269" alt="스크린샷 2022-05-24 오후 12 41 27" src="https://user-images.githubusercontent.com/56713634/169944865-6f126138-7057-4c6b-b7c2-920b4c335863.png"></p>
+
+* 현재 시점 t의 x값과 이전 시점 t-1의 hidden state가 시그모이드 함수를 거침
+* 0과 1 사이의 값이 나오게 되며, 이 값은 삭제 과정을 거친 정보의 양 
+* 0에 가까울수록 정보가 많이 삭제, 1에 가까울수록 정보를 온전히 기억
+  > 이를 가지고 cell state를 구함
+
+
+#### cell stata
+장기 상태라고 부름
+<p align="center"><img width="293" alt="스크린샷 2022-05-24 오후 12 52 15" src="https://user-images.githubusercontent.com/56713634/169945920-585b0c47-6dcd-4db3-ac49-12e2047e51fb.png"></p>
+
+* forget gate의 출력값이 0이라면, 오직 input gate의 결과만 현재시점의 cell 값을 결정
+* input gate가 0 이라면 현재시점의 cell값은 이전 시점의 cell값에만 의존
+* __forget gate는 이전 시점의 입력을 얼마나 반영할지, input gate는 현재 시점의 입력을 얼마나 반영할지 결정__
+
+#### output state
+Memory cell을 얼마나 사용할지 결정하기 위한 게이트
+
+<p align="center"><img width="272" alt="스크린샷 2022-05-24 오후 1 11 59" src="https://user-images.githubusercontent.com/56713634/169947355-44fba368-496e-48cd-9cca-edfbbdb535a9.png"></p>
