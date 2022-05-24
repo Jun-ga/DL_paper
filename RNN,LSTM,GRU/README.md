@@ -31,7 +31,7 @@
 
 
 ## LSTM(Long Short-Term Memory,장단기 메모리)
-RNN의 문제를 해결하기 위해 고안된 방
+RNN의 문제를 해결하기 위해 고안된 방식
 
 <p align="center"><img width="343" alt="스크린샷 2022-05-24 오전 3 18 10" src="https://user-images.githubusercontent.com/56713634/169882171-621700b7-4587-43d3-bb99-61365836acf4.png"></p>
 
