@@ -22,7 +22,7 @@
 
 ### 수식
 
-<p align="center"><img width="113" alt="스크린샷 2022-05-24 오전 3 11 24" src="https://user-images.githubusercontent.com/56713634/169881169-4cbfa647-ab79-4d09-8c4f-8f7850052b5e.png"></p>
+<p align="center"><img width="342" alt="스크린샷 2022-05-24 오후 12 12 35" src="https://user-images.githubusercontent.com/56713634/169941333-9e6b0bfb-537b-4410-82b4-38df77ab0d61.png"></p>
 
 <p align="center"><img width="401" alt="스크린샷 2022-05-24 오전 3 12 12" src="https://user-images.githubusercontent.com/56713634/169881266-71d80474-c597-48da-a44f-96b2c361d8b2.png"></p>
 
@@ -35,4 +35,11 @@ RNN의 문제를 해결하기 위해 고안된 방
 <p align="center"><img width="343" alt="스크린샷 2022-05-24 오전 3 18 10" src="https://user-images.githubusercontent.com/56713634/169882171-621700b7-4587-43d3-bb99-61365836acf4.png"></p>
 
 ### 특징
+* long sequence의 입력을 처리가히게 탁월한 성능을 가짐
+* long term state를 위해 Memory cell을 추가
+<p align="center"><img width="471" alt="스크린샷 2022-05-24 오후 12 34 27" src="https://user-images.githubusercontent.com/56713634/169943540-296d4caf-3ea6-4b79-8b53-e8103c713919.png"></p>
+* hidden state와 Memory cell을 구하기 위해 3개의 gate가 추가됨
+  > 이를 통해, 불필요한 기억은 지우고 기억해야할 것들을 정함
+  > h_t는 단기상태, c_t는 장기상태
 
+#### input gate
