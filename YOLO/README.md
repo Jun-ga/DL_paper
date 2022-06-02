@@ -1,6 +1,6 @@
 # YOU ONLY LOOK ONCE
 
-# YOLOv1
+# YOLO v1
 
 <p align="center"><img width="595" alt="스크린샷 2022-06-02 오후 1 53 21" src="https://user-images.githubusercontent.com/56713634/171555461-b965738f-84be-4c5e-9d0c-0b63a868802c.png"></p>
 
@@ -143,5 +143,43 @@ YOLO v2는 다른 크기의 이미지로부터 robust를 갖기 위해 다양한
 * 1/32배 downsampling을 진행하므로 학습 이미지는 31의 배수 _다양한 입력크기에도 잘 예측이 가능해짐_
 
 
+## 성능
 
+<p align="center"><img width="360" alt="스크린샷 2022-06-02 오후 4 21 50" src="https://user-images.githubusercontent.com/56713634/171575823-9f706a1b-eefa-40bb-872d-e700ab8803af.png"></p>
+
+
+## Faster
+
+### Datknet-19
+
+19개의 convolutional layer와 5개의 maxpooling layer로 구성
+
+<p align="center"><img width="252" alt="스크린샷 2022-06-02 오후 4 26 04" src="https://user-images.githubusercontent.com/56713634/171576845-64138b85-9b7f-4a3d-86ec-c2c8eeda6fbb.png"></p>
+
+* VGG model에서 사용한 3x3 filter와 GoogLeNet에서 이용된 NIN(Network in Network)기법 사용
+*  3x3 filter 사이에 1x1 filter로 차원축소와 FC layer 제거하여 연산량을 줄임
+
+## Stronger
+
+YOLO v2는 classification과 detection dataset을 함께 학습시키는 방법을 제안한다.
+
+### Hierarchical classification
+
+거대한 데이터셋을 학습시키기 위해서는 계층적 분류를 수행해야함 이에, softmax fuction을 수행할때 전체 class에 대해 한꺼번에 수행하지않고 대분뷰별로 Softmax를 여러개 수행
+
+<p align="center"><img width="318" alt="스크린샷 2022-06-02 오후 4 33 34" src="https://user-images.githubusercontent.com/56713634/171578592-8d7fb53b-0a77-4e24-b79d-5a5047b7e776.png"></p>
+
+### Dataset combination with WordTree
+
+COCO dataset과 ImageNet dataset을 결합하기 위해 워드트리를 사용
+
+<p align="center"><img width="438" alt="스크린샷 2022-06-02 오후 4 33 46" src="https://user-images.githubusercontent.com/56713634/171578763-29ff5956-5890-47e3-9c66-c9beee3188fe.png"></p>
+
+### Joint classification and detection
+
+* 워드트리로 모델을 학습
+* COCO dataset과 ImageNet 9000개 class를 결합하여 9418개 class
+* 출력사이즈 한계때문에 5개가 아닌 3개의 prior사용
+* detection data의 경우 full loss를 역전파하고, classification data의 경우 classification loss 부분만 역전파
+* lassification에서 label의 하위 범주(node)들은 학습에 고려하지 않고, 상위 범주(node)들만 고려
 
