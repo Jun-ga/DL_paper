@@ -60,7 +60,7 @@ __일반화__
 * localization loss : 예측된 boundary box의 위치와 크기에 대한 error
 * confidence loss : 객체 탐지 여부에 따라 가중치를 다르게 줌
 
-<p align="center"><img width="466" alt="스크린샷 2022-06-02 오후 3 16 34" src="https://user-images.githubusercontent.com/56713634/171565294-483ad6e7-2d15-43df-9f31-73bdee57ee50.png"></p>
+<p align="center"><img width="642" alt="스크린샷 2022-06-02 오후 3 28 42" src="https://user-images.githubusercontent.com/56713634/171567004-7eb9e631-343a-4561-b083-4fb3b2e63efb.png"></p>
 
 
 1. object가 존재하는 grid cell i의 예측 bounding box j에 대해, x와 y의 loss를 계산.
