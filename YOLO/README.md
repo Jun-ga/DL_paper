@@ -183,3 +183,6 @@ COCO dataset과 ImageNet dataset을 결합하기 위해 워드트리를 사용
 * detection data의 경우 full loss를 역전파하고, classification data의 경우 classification loss 부분만 역전파
 * lassification에서 label의 하위 범주(node)들은 학습에 고려하지 않고, 상위 범주(node)들만 고려
 
+# YOLOv3
+
+##
