@@ -86,16 +86,16 @@ __일반화__
 # YOLOv2
 
 ## better
-__1. Batch Normalization__
+### 1. Batch Normalization
 * Batch Normalization은 다른 regularization의 필요성을 없애고 신경망을 더 빠르게 수렴
 * YOLO의 convolutional layer에 Batch Normalization을 이용하여 mAP를 2% 상승시켰고, dropout을 제거
-
-__2. High Resolution Classifier__
+### 2. High Resolution Classifier
 * YOLOv1은 입력 이미지 224x224로 학습을 한다. 하지만 detection을 할 때는 입력 이미지 448x448을 하기때문에 강제로 cnn 입력을 바꿔 네트워크가 잘 적응하지 못하여 성능이 낮다고 생각함
 * 이에, YOLO v2는 ImageNet dataset에서 448x448 이미지로 fine tuning 및 detection을 위한 fune tuning을 해줌
-* CNN 신경망은 4% mAP를 증가시켜주었습니다.
+* 4% mAP를 증가
 
-__3. Convolustional with Anchor Boxes__
+### 3. Convolustional with Anchor Boxes
+
 fully connected layer를 제거하고 anchor box를 활용해서 바운딩 박스를 예측 즉, 1x1 convolutional layer로 예측
 
 * 입력이미지 크기를 448x448에서 416x416으로 변경
@@ -106,5 +106,42 @@ fully connected layer를 제거하고 anchor box를 활용해서 바운딩 박�
    
    >  anchor box(o) 69.2 mAP, 88% recall
    
-__4. Dimension Clusters__
+### 4. Dimension Clusters
+기존의 모델들은 anchor box의 크기와 aspect ratio를 사전에 수작업(hyperparameter)으로 정의, YOLOv2에서는 수작업으로 정의하는 방법보다 더 좋은 사전 anchor box들을 이용하면 더 좋은 detection 성능을 보여줄 것이라 생각
+
+* k-means clustering 방법을 통해 자동으로 training dataset의 ground truth를 clustering해서 anchor box의 크기와 aspect ratio를 정의
+* Euclidean distance를 이용할 경우 큰 bounding box가 작은 bounding box에 비해 큰 error를 발생시키는 문제발생, 이에 저자들은 아래의 식을 도입(IOU를 기준으로 k-means clustering)
+
+<p align="center"><img width="305" alt="스크린샷 2022-06-02 오후 3 49 15" src="https://user-images.githubusercontent.com/56713634/171571208-0fa958c8-930f-4915-aadc-d04f938e908b.png"></p>
+
+<p align="center"><img width="593" alt="스크린샷 2022-06-02 오후 3 49 07" src="https://user-images.githubusercontent.com/56713634/171570640-f42186c1-c5c8-45d8-885c-41c625742395.png"></p>
+* k = 5로 설정
+
+<p align="center"><img width="410" alt="스크린샷 2022-06-02 오후 3 49 22" src="https://user-images.githubusercontent.com/56713634/171571789-afa7bf7a-6725-4a1b-bd02-8709aa79298c.png"></p>
+
+### 5. Direct location prediction
+
+* anchor box를 활용한 bounding box offset 예측법은 bounding box의 위치를 제한하지 않아서 초기 학습시 불안정하다는 단점 발생
+* 예측값의 범위를 제한하지 않으면 bounding box가 이미지 어디에도 나타날 수 있습니다. 
+* 안정적으로 바운딩박스를 예측하기 까지 모델이 학습되는데에는 많은 시간 소요
+* 이를 해결하기 위해 sigmoid를 사용하여 범위를 0~1로 제한
+
+<p align="center"><img width="409" alt="스크린샷 2022-06-02 오후 4 09 09" src="https://user-images.githubusercontent.com/56713634/171573859-98b06923-e433-4a05-afce-05bd42e4f670.png"></p>
+
+
+__bounding box 중심 좌표 예측값을 sigmoid 함수로 감싸 위치 제한__
+<p align="center"><img width="518" alt="스크린샷 2022-06-02 오후 4 08 53" src="https://user-images.githubusercontent.com/56713634/171574115-e43b3323-6efc-4e4e-9342-7351965980f0.png"></p>
+
+### 6. Fine-Grained Features
+
+YOLOv2의 13x13 feature map은 큰 물체를 탐지하는데 충분할 수 있으나 작은 물체를 잘 탐지하지 못 할 수 있다. 이를 해결하기 위해 13x13 feature map을 얻기 전의 앞 쪽의 layer에서 26x26 해상도의 feature map을 passthrough layer를 통해 얻는다.
+
+### 7. Multi-scale Training
+
+YOLO v2는 다른 크기의 이미지로부터 robust를 갖기 위해 다양한 크기로 학습
+* 10갸의 batch들 마다 새로운 이미지 차워을 적용
+* 1/32배 downsampling을 진행하므로 학습 이미지는 31의 배수 _다양한 입력크기에도 잘 예측이 가능해짐_
+
+
+
 
