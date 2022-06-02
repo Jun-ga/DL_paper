@@ -184,5 +184,32 @@ COCO dataset과 ImageNet dataset을 결합하기 위해 워드트리를 사용
 * lassification에서 label의 하위 범주(node)들은 학습에 고려하지 않고, 상위 범주(node)들만 고려
 
 # YOLOv3
+YOLOv2에서 개선된 버전, 큰 변화가 일어나지않음
 
-##
+<p align="center"><img width="438" alt="스크린샷 2022-06-03 오전 3 12 21" src="https://user-images.githubusercontent.com/56713634/171698217-69d420ec-0a54-43d8-afd0-e599b0d27a44.png"></p>
+
+
+## Bounding Box Prediction
+<p align="center"><img width="435" alt="스크린샷 2022-06-03 오전 3 14 19" src="https://user-images.githubusercontent.com/56713634/171698466-e1e4877f-b045-4221-bf3f-8e6570353c9c.png"></p>
+
+* boundig box를 예측하는 방법은 v2와 동일
+* tx,ty,tw,th가 예측되고 그 예측값에 수식을 더해 bx,by,bw,bh로 변형후 L2 loss 학습 (기존과 동일)
+* ground truth 좌표를 위의 공식을 거꾸로 적용시켜 t* 로 변환, tx와 직접 L1 loss를 통해 학습시킨다.
+* 예측한 bounding box마다 objectness score(그 바운딩박스에 물체가 있는지 없는지)를 예측하고, 이때 prior box(anchor box)와 ground truth box의 IOU가 가장 높은 박스를 1로 매칭
+
+## Class Prediction
+
+* 각 box는 bounding box의 class를 에cmr
+* softmax 사용x (multi-label이 있을 수도 있기때문)
+* __inary cross-enrtopy loss를 사용한 독립적인 logistic classfier를 사용__ _좀 더 복잡한 데이터셋을 학습하는데 도움을 줌_
+
+## Predictions Across Scales
+
+* 서로 다른 3개의 scale을 사용하여 최종 결과를 예측
+* multi-scale feature map을 얻는 방법은 FPN과 유사 즉, feature pyramid에서 추출 (3개의 feature map 활용)
+ * 416x416 크기의 이미지를 입력하여 52x52,26x26,13x13이 되는 feature map 추출
+* 
+* 한 feature map에서의 output 형태는 Grid x Grid x (#bb *(offset + objectiveness + class)) = NxNx(3x(4+1+80))
+
+
+
