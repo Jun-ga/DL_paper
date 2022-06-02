@@ -70,6 +70,9 @@ __일반화__
 4. object가 존재하지 않는 grid cell i의 bounding box j에 대해, confidence score의 loss를 계산. (Ci = 0)
 5. object가 존재하는 grid cell i에 대해, conditional class probability의 loss 계산. (Correct class c: pi(c)=1, otherwise: pi(c)=0)
 
+λcoord: coordinates(x,y,w,h)에 대한 loss와 다른 loss들과의 균형을 위한 balancing parameter
+λnoobj: obj가 있는 box와 없는 box간에 균형을 위한 balancing parameter
+
 ## 한계
 
 * 각 grid cell 마다 B개의 bounding box만 추측해내야하므로 objet가 겹쳐있으면 제대로 예측 불가능
@@ -80,4 +83,28 @@ __일반화__
 ## 성능
 <p align="center"><img width="366" alt="스크린샷 2022-06-02 오후 3 27 10" src="https://user-images.githubusercontent.com/56713634/171566775-25912cde-361f-40f9-bc9b-e7eda2829fab.png"></p>
 
+# YOLOv2
+
+## better
+__1. Batch Normalization__
+* Batch Normalization은 다른 regularization의 필요성을 없애고 신경망을 더 빠르게 수렴
+* YOLO의 convolutional layer에 Batch Normalization을 이용하여 mAP를 2% 상승시켰고, dropout을 제거
+
+__2. High Resolution Classifier__
+* YOLOv1은 입력 이미지 224x224로 학습을 한다. 하지만 detection을 할 때는 입력 이미지 448x448을 하기때문에 강제로 cnn 입력을 바꿔 네트워크가 잘 적응하지 못하여 성능이 낮다고 생각함
+* 이에, YOLO v2는 ImageNet dataset에서 448x448 이미지로 fine tuning 및 detection을 위한 fune tuning을 해줌
+* CNN 신경망은 4% mAP를 증가시켜주었습니다.
+
+__3. Convolustional with Anchor Boxes__
+fully connected layer를 제거하고 anchor box를 활용해서 바운딩 박스를 예측 즉, 1x1 convolutional layer로 예측
+
+* 입력이미지 크기를 448x448에서 416x416으로 변경
+ * 416을 32로 down sampling시 13x13의 feature map 생성, 물체가 이미지 중앙에 있는 경우가 많기 때문에 output feature map은 홀수x홀수가 더 좋음
+ * grid마다 클래스를 예측하는 것이 아닌 모든 Anchor Box마다 클래스 예측
+ * anchor box를 이용하여 mAP은 감소하고 recall이 증가
+   >  anchor box(x) : 69.5 mAP, 81% recall
+   
+   >  anchor box(o) 69.2 mAP, 88% recall
+   
+__4. Dimension Clusters__
 
