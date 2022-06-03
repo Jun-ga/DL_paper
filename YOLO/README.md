@@ -65,7 +65,8 @@ __일반화__
 
 1. object가 존재하는 grid cell i의 예측 bounding box j에 대해, x와 y의 loss를 계산.
 2. object가 존재하는 grid cell i의 에측 bounding box j에 대해, w와 h의 loss를 계산. 
-큰 box에 대해서는 small deviation을 반영하기 위해 제곱근을 취한 후, sum-squared error를 한다.(같은 error라도 larger box의 경우 상대적으로 IOU에 영향을 적게 준다.)
+  > 큰 box에 대해서는 small deviation을 반영하기 위해 제곱근을 취한 후, sum-squared error를 한다.(같은 error라도 larger box의 경우 상대적으로 IOU에 영향을 적게 준다.)
+
 3. object가 존재하는 grid cell i의 예측 bounding box j에 대해, confidence score의 loss를 계산.
 4. object가 존재하지 않는 grid cell i의 bounding box j에 대해, confidence score의 loss를 계산.
 5. object가 존재하는 grid cell i에 대해, conditional class probability의 loss 계산. (Correct class c: pi(c)=1, otherwise: pi(c)=0)
