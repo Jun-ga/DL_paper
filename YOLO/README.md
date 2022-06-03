@@ -228,7 +228,7 @@ ImageNet dataset에서의 성능
 * ResNet-101과 비교했을때 더 나은 성능을 보여줌 _약 1.5배 빠름_
 
 
-## Traing
+## Training
 
 
 * full image(with no hard negative mining)
