@@ -217,9 +217,29 @@ YOLOv2에서 개선된 버전, 큰 변화가 일어나지않음
 
 
 ## Feature Extractor
-YOLOv3은 DarkNet-53을 사용, 53개의 convolustional layer로 이뤄짐
+YOLOv3은 DarkNet-53을 사용 _53개의 convolustional layer로 이뤄짐_
 
 <p align="center"><img width="358" alt="스크린샷 2022-06-03 오후 1 26 33" src="https://user-images.githubusercontent.com/56713634/171786240-9dc912af-03c1-41e9-b63d-de623a8c1cea.png"></p>
 
+ImageNet dataset에서의 성능
+
+<p align="center"><img width="436" alt="스크린샷 2022-06-03 오후 1 26 41" src="https://user-images.githubusercontent.com/56713634/171787472-ee216914-f2ad-46de-9432-f6447f06fe4a.png"></p>
+
+* ResNet-101과 비교했을때 더 나은 성능을 보여줌 _약 1.5배 빠름_
+
+
+## Traing
+
+
+* full image(with no hard negative mining)
+* multi-scale training, lots of data aygmentation, batch normalization
+* optimizer : SGD
+
+### 성능
+
+<p align="center"><img width="878" alt="스크린샷 2022-06-03 오후 1 33 26" src="https://user-images.githubusercontent.com/56713634/171787804-4f55be90-90e4-4d33-9966-f9e1f3f51ded.png"></p>
+
+
+<p align="center"><img width="746" alt="스크린샷 2022-06-03 오후 1 43 43" src="https://user-images.githubusercontent.com/56713634/171787724-0f6fbe9d-8b65-4cb2-9a0f-ccbf1854c5a5.png"></p>
 
 
