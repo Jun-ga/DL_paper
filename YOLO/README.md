@@ -208,8 +208,18 @@ YOLOv2에서 개선된 버전, 큰 변화가 일어나지않음
 * 서로 다른 3개의 scale을 사용하여 최종 결과를 예측
 * multi-scale feature map을 얻는 방법은 FPN과 유사 즉, feature pyramid에서 추출 (3개의 feature map 활용)
  * 416x416 크기의 이미지를 입력하여 52x52,26x26,13x13이 되는 feature map 추출
-* 
-* 한 feature map에서의 output 형태는 Grid x Grid x (#bb *(offset + objectiveness + class)) = NxNx(3x(4+1+80))
+* coco dataset에 대해서는 각 scale에서 3개의 박스를 사용
+ * 이떄, 출력값은 N × N × [3 ∗ (4 + 1 + 80)]
+ * 4 : bounding box offsets, 1 : objectness prediction, 80 : class prediction  N : grid
+ * 즉, grid x grid x [ box * (bounding box offsets + objectness prediction + class prediction)]
+* anchor 박스를 생성할 때 k-means clusterung을 사용 -> 3개의 scale에서 3개의 box를 사용 9개의 anchor 박스 필요
+ * (10x13), (16x30), (33x23), (30x61), (62x45), (59x119), (116x90), (156x198), (373x326) 생성
+
+
+## Feature Extractor
+YOLOv3은 DarkNet-53을 사용, 53개의 convolustional layer로 이뤄짐
+
+<p align="center"><img width="358" alt="스크린샷 2022-06-03 오후 1 26 33" src="https://user-images.githubusercontent.com/56713634/171786240-9dc912af-03c1-41e9-b63d-de623a8c1cea.png"></p>
 
 
 
