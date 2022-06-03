@@ -200,7 +200,7 @@ YOLOv2에서 개선된 버전, 큰 변화가 일어나지않음
 
 ## Class Prediction
 
-* 각 box는 bounding box의 class를 에cmr
+* 각 box는 bounding box의 class를 
 * softmax 사용x (multi-label이 있을 수도 있기때문)
 * __inary cross-enrtopy loss를 사용한 독립적인 logistic classfier를 사용__ _좀 더 복잡한 데이터셋을 학습하는데 도움을 줌_
 
