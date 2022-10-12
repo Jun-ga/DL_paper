@@ -118,4 +118,46 @@ label-preserving transformation(라벨 보존 변형)을 사용하여 데이터�
 
 ## Results
 
+<p align="center"><img width="407" alt="스크린샷 2022-10-12 오후 11 52 24" src="https://user-images.githubusercontent.com/56713634/195382209-b2abce4f-6450-4feb-bb0c-6d1daa543de0.png"><p>
 
+> ILSVRC-2010 대회 때의 모델들과 CNN을 사용한 AlexNet을 비교한 결과
+
+> sparse coding은 6개의 sparse-coding model들로부터 나온 predict 결과를 평균하여 예측하는 방식
+
+> SIFT + FVs 는 Fisher Vectors(FVs)로부터 훈련된 두 개의 분류기로 predict한 것들의 평균으로 예측하는 방식
+
+<p align="center"><img width="964" alt="스크린샷 2022-10-12 오후 11 10 00" src="https://user-images.githubusercontent.com/56713634/195382313-eb196c1a-38b8-43eb-b775-43c6add095ef.png"><p>
+
+> ILSVRC-2012 대회 때 AlexNet(CNN)을 적용한 결과
+
+> 1 CNN은 CNN모델을 하나 썼을 경우이고, 5 CNN은 5개의 CNN모델을 사용하고 그 평균을 사용하여 예측했을 때의 결과
+
+> 1 CNN*은 하나의 CNN모델에 추가로 6개의 convolutional layer를 붙인 모델
+  > ImageNet Fall 2011데이터(1500만개의 이미지, 22000개의 카테고리)로 훈련을 한 뒤, ILSVRC-2012로 fine-tuning한 결과
+
+> 7 CNNs*는 1 CNN* 7개의 모델을 돌려 그 평균을 사용하여 예측한 결과
+
+
+### Qualitative Evaluations
+신경망내 2개의 데이터가 연결되는 계층에서 합성곱 kernel을 보여줌
+
+<p align="center"><img width="396" alt="스크린샷 2022-10-13 오전 12 12 22" src="https://user-images.githubusercontent.com/56713634/195382099-0095e94b-ec7d-4585-b062-0ddeb034823d.png"><p>
+
+* 첫 번째 GPU에서는 color가 거의 인코딩되어 있지 않지만, 두 번째 GPU에서는 color가 인코딩되어 있는 모습을 확인 가능
+
+<p align="center"><img width="940" alt="스크린샷 2022-10-13 오전 12 06 12" src="https://user-images.githubusercontent.com/56713634/195381920-e392fe8f-0f63-4b2e-b21b-903e30d7582f.png"><p>
+
+#### 왼쪽이미지
+* 빨간 그래프가 정답 레이블에 해당하는 그래프
+* 위치에 상관없이 잘 분류함을 확인할 수 있음
+
+#### 오른쪽이미지
+* 좌측 사진은 가장 왼쪽의 column이 test set에서 뽑은 것들이고, 나머지는 train set에서 뽑은 이미지들이다
+* Test set에서 뽑은 사진들을 각각 모델에 넣고, 4096-layer에서의 feature activation을 기준으로 가장 근사한 것들을 뽑은 것
+* 픽셀 단위로는 test set과 train set이 전혀 다르지만(색이나 포즈라던가), 그럼에도 불구하고 같은 부류라고 판단함을 확인 가능
+
+## Discussion
+* 지도학습만으로 크고 깊은 CNN이 방대한 데이터셋을 분류하는데에도 뛰어난 성과를 보임
+* 하나의 합성곱계층만 제거해도 결과가 나빠짐을 확인했다.
+> 예를 들어, 중간에 하나의 계층만 제거해도 top-1 에러율이 2%가 나빠진다. 그렇기에 깊이 또한 우리의 결과에 매우 중요하다.
+* 충분한 컴퓨팅 파워가 있다면 네트워크의 사이즈(깊이)를 더 늘림으로써 더욱 뛰어난 성능을 발휘할 것이다.
