@@ -126,7 +126,7 @@ label-preserving transformation(라벨 보존 변형)을 사용하여 데이터�
 
 > SIFT + FVs 는 Fisher Vectors(FVs)로부터 훈련된 두 개의 분류기로 predict한 것들의 평균으로 예측하는 방식
 
-<p align="center"><img width="964" alt="스크린샷 2022-10-12 오후 11 10 00" src="https://user-images.githubusercontent.com/56713634/195382313-eb196c1a-38b8-43eb-b775-43c6add095ef.png"><p>
+<p align="center"><img width="627" alt="스크린샷 2022-10-12 오후 11 52 31" src="https://user-images.githubusercontent.com/56713634/195382526-7b0dafaa-c160-431f-84f3-0aa79c7b98e6.png"><p>
 
 > ILSVRC-2012 대회 때 AlexNet(CNN)을 적용한 결과
 
