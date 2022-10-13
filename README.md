@@ -1,7 +1,7 @@
 # DL_paper
 딥러닝관련 논문읽고 공부하자
 
-## cnn 관련
+## CNN 관련
 |번호|논문|리뷰|실습|
 |:--:|:--:|:--:|:--:|
 |1|AlexNet|[link](https://github.com/Jun-ga/DL_paper/tree/main/AlexNet)||
