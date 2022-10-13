@@ -1,11 +1,21 @@
 # DL_paper
 딥러닝관련 논문읽고 공부하자
 
+## cnn 관련
+|번호|논문|리뷰|실습|
+|:--:|:--:|:--:|:--:|
+|1|AlexNet|[link](https://github.com/Jun-ga/DL_paper/tree/main/AlexNet)||
+|2|Inception-v1| 
+|3|VGG|
+|4|Inception-v2~3|
+|5|ResNet|
+|6|DenseNet|
+|7|Inception-v4|
+|8|EfficientNet|
+
+
 
 ## image Detection
-논문읽고 실습
-주 2회 목표, 한 논문당 2일
-
 |번호|논문|리뷰|실습|
 |:--:|:--:|:--:|:--:|
 |1|R-CNN|||
