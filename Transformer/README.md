@@ -37,3 +37,16 @@ transformer은 self-attention과 point-wise를 따르며, 크게 Encoder와 Deco
 * residual connection과 normalization을 적용
 
 ## Attention
+attention function은 query와 key-value쌍을 query, keys, values, output이 모두 vectors인 output에 mapping하는 것
+> 이때, output은 values의 weighted sum으로 계산
+> 즉, 
+
+[필요시 추가 설명 첨부]
+
+### Scaled Dot-Product Attention
+[사진 첨부]
+
+
+
+### Multi-Head Attention
+[사진 첨부]
