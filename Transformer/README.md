@@ -18,7 +18,7 @@
 
 
 # Model Architecture
-transformer은 self-attention과 point-wise를 따르며, 크게 Encoder와 Decoder로 구성되어있다.
+transformer은 self-attention과 position-wise를 따르며, 크게 Encoder와 Decoder로 구성되어있다.
 <p align="center"><img width="286" alt="스크린샷 2023-01-17 오후 8 58 32" src="https://user-images.githubusercontent.com/56713634/212893467-5078ac29-5db2-401d-8fe3-7587d7e126ed.png"><p>
 
 
@@ -89,12 +89,14 @@ weight는 Q와 K의 조합으로 계산됨 이때, Additive attention과 dot-pro
 
 ### Multi-Head Attention
 single attention을 d_model 차원에 Q,K,V를 사용하여 수행하는 것보다 d_k, d_k, d_v 차원에 대해 학습된 서로 다른 linear projection을 사용하여 query, key, value를 h회 linear projection하는 것이 유익을 발견
-
-[사진 첨부]
+  
+<p align="center"><img width="187" alt="스크린샷 2023-01-16 오후 10 59 43" src="https://user-images.githubusercontent.com/56713634/212965640-b703e9ba-d94c-44c2-b84c-c4b9af739274.png"><p> 
+  
 * query, key, value의 각 projection version에서 attention funtction을 병렬로 수행하여 d_v차원 output을 생성
 * 이를 concat하여 다시 d_model 차원의 output이 생성
 
-[식 첨부]
+<p align="center"><img width="474" alt="스크린샷 2023-01-18 오전 2 10 33" src="https://user-images.githubusercontent.com/56713634/212965793-5f5486e9-eb53-455c-91f5-b19c2826f494.png"><p> 
+  
 * H = 8 parallel attention layer or head
 * d_k = d_v = d_model/h = 64
 * total computational cost는 single-head attention cost와 유사
@@ -113,7 +115,8 @@ Transformer는 다음의 방식으로 multi-head attnetion을 사용한다.
 * 각 position에 개별적으로 동일하게 적용
 * 중간에 ReLU activation이 있는 두 가지 linear transformation 구성
 
-[식 첨부]
+<p align="center"><img width="195" alt="스크린샷 2023-01-18 오전 2 11 22" src="https://user-images.githubusercontent.com/56713634/212965970-81248c46-e371-480c-8177-e4c848e8f3b3.png"><p> 
+  
 * linear transformation은 다른 position에 대해 동일하지만 layer간 parameter는 다름
 * input과 output의 차원은 512, inner-layer의 차원은 2048
 
@@ -128,14 +131,18 @@ Transformer는 다음의 방식으로 multi-head attnetion을 사용한다.
 Transformer는 순차적인 특성이 없고 이에 따라 sequence의 위치 정보가 없기 때문에 positional 정보를 추가해야함
 * 인코더와 디코더 stack 하단에 positional encodings을 추가
 * Positional encoding은 embedding과 동일한 차원을 가짐
-[식 첨부]
+
+<p align="center"><img width="204" alt="스크린샷 2023-01-18 오전 2 12 13" src="https://user-images.githubusercontent.com/56713634/212966119-c4161208-c749-4df3-b903-bb9ffd000d94.png"><p> 
+  
 * pos : token의 위치, i : 차원
 * Positional encoding의 각 차원은 sin파에 해당
 * 본 논문에서 이 함수를 사용한 이유는 어떠한 고정된 offset k에 대해서 PE_pos+k를 PE_pos의 linear function으로 나타낼 수 있기 때문에 모델이 쉽게 상대적인 위치를 참조할 수 있을 것이라 가정했기 떄문
 
 ## Why Self-Attention
 Self-attention layers와 recurrent and convolution layers와의 비교
-[그림 첨부]
+
+<p align="center"><img width="455" alt="스크린샷 2023-01-18 오전 2 12 59" src="https://user-images.githubusercontent.com/56713634/212966280-19253faf-84c6-494b-9dfb-2b1d6cd5ab4e.png"><p> 
+  
 * layer별 총 연산의 complexity.
 * sequential parallelize 할 수 있는 계산의 양
 * Network에서 long-range dependencies(장거리 의존성) 사이 path length. 
@@ -159,11 +166,14 @@ Self-attention layers와 recurrent and convolution layers와의 비교
 
 ## Results
 ### Machine Translation
-[표 첨부]
+
+<p align="center"><img width="476" alt="스크린샷 2023-01-18 오전 2 14 01" src="https://user-images.githubusercontent.com/56713634/212966543-a4ef2c87-da14-4f2c-9dfe-e6ffaa3f9685.png"><p> 
 
 ## Model Variations
-[표 첨부]
 
+<p align="center"><img width="483" alt="스크린샷 2023-01-18 오전 2 14 07" src="https://user-images.githubusercontent.com/56713634/212966651-ce6eb8cd-6e01-4d32-9fcb-d9413c99b458.png"><p> 
+  
 ## English Constituency Parsing
-[표 첨부]
+
+<p align="center"><img width="472" alt="스크린샷 2023-01-18 오전 2 14 14" src="https://user-images.githubusercontent.com/56713634/212966720-b41f9db7-eafb-469d-8242-3061e0fb423b.png"><p> 
 
