@@ -13,7 +13,7 @@
 * Recurrent models은 이전 결과를 입력으로 받는 순차적인 특성으로 인하여 병렬처리가 어려움
   > 최근의 연구는 factorization tricks, conditional computation을 통해 효율적인 연산처리를 진행했지만 아직 순차적 제약 발생
 * Attention mechanisms은 input, output sequence의 길이에 상관하지않음 하지만 여전히 __recurrent network와 함께 사용됨__
-* 본 모델은 recurrent network를 제거하고 input과 ouput간의 global dependency를 뽑아내기 위해 attention mechanism만을 사용하는 __transformer__를 제안한다.
+* 본 모델은 recurrent network를 제거하고 input과 ouput간의 global dependency를 뽑아내기 위해 attention mechanism만을 사용하는 __transformer__ 를 제안한다.
   > 이 모델은 8개의 P100 GPU로 12시간 호학습하여 병렬처리와 SOTA를 달성한다.
 
 
@@ -46,6 +46,9 @@ attention function은 query와 key-value쌍을 query, keys, values, output이 �
 ### Scaled Dot-Product Attention
 [사진 첨부]
 
+* input : Query(Q), Key(K), Value(V)
+[식 첨부]
+*
 
 
 ### Multi-Head Attention
