@@ -65,4 +65,82 @@ weight는 Q와 K의 조합으로 계산됨 이때, Additive attention과 dot-pro
 
 
 ### Multi-Head Attention
+single attention을 d_model 차원에 Q,K,V를 사용하여 수행하는 것보다 d_k, d_k, d_v 차원에 대해 학습된 서로 다른 linear projection을 사용하여 query, key, value를 h회 linear projection하는 것이 유익을 발견
+
 [사진 첨부]
+* query, key, value의 각 projection version에서 attention funtction을 병렬로 수행하여 d_v차원 output을 생성
+* 이를 concat하여 다시 d_model 차원의 output이 생성
+
+[식 첨부]
+* H = 8 parallel attention layer or head
+* d_k = d_v = d_model/h = 64
+* total computational cost는 single-head attention cost와 유사
+  > 각 head마다 차원을 줄이므로
+
+### Applications of Attention in our Model
+Transformer는 다음의 방식으로 multi-head attnetion을 사용한다.
+
+* "Encoder-Decoder Attention layer" 에서 query는 이전 decoder layer에서 얻고, key와 value는 encoder의 output에서 얻는다. 이를 통해 decoder의 모든 position이 input sequence의 모든 position에 배치될 수 있다. 이는 sequence-to-sequence 모델에서 일반적인 encoder-decoder attention 메커니즘과 동일하다.
+* Self-Attention layer는 encoder에 존재하며 query, key, value가 동일하며, 이는 encoder에 있는 이전 layer의 output이다. Encoder의 각 position은 이전 layer의 모든 position에 attend 할 수 있다.
+* Self-Attention layer는 decoder에도 존재하며, 마찬가지로, decoder의 self-attention layer는 각 position이 해당 position의 위치까지 docoder의 모든 position에 attned하도록 한다. auto-regressive propert를 유지하기 위해 decoder에서 leftward information flow을 막아야 한다 (미래 시점의 단어를 볼 수 없도록 하는 것). 이를 위해 매우 작은 수를 부여하여 softmax 결과 0에 수렴하도록 하여 masking을 수행한다.우리는 잘못된 연결에 해당하는 소프트맥스 입력의 모든 값을 마스킹(-)로 설정)하여 스케일링된 도트 제품 주의의 내부에서 이를 구현한다.
+
+
+### Position-wise Feed-Forward Networks
+인코더와 디코더의 각 layer는 fully connected feed-forward network를 가짐
+* 각 position에 개별적으로 동일하게 적용
+* 중간에 ReLU activation이 있는 두 가지 linear transformation 구성
+
+[식 첨부]
+* linear transformation은 다른 position에 대해 동일하지만 layer간 parameter는 다름
+* input과 output의 차원은 512, inner-layer의 차원은 2048
+
+
+### Embeddings and Softmax
+* 학습된 embedding을 사용하여 input token과 output token을 d_model차원의 벡터로 변환
+* 학습된 linear transformation과 softmax 함수를 사용하여 decoder output을 예측된 다음 token 확률로 변환
+* 두 embedding layer와 softmax 이전 linear transformation 사이에서 동일한 weight matrix를 공유
+* Inner layer에서 이러한 weight를 가중치에 √(d_model)을 곱한다.
+
+### Positional Encoding
+Transformer는 순차적인 특성이 없고 이에 따라 sequence의 위치 정보가 없기 때문에 positional 정보를 추가해야함
+* 인코더와 디코더 stack 하단에 positional encodings을 추가
+* Positional encoding은 embedding과 동일한 차원을 가짐
+[식 첨부]
+* pos : token의 위치, i : 차원
+* Positional encoding의 각 차원은 sin파에 해당
+* 본 논문에서 이 함수를 사용한 이유는 어떠한 고정된 offset k에 대해서 PE_pos+k를 PE_pos의 linear function으로 나타낼 수 있기 때문에 모델이 쉽게 상대적인 위치를 참조할 수 있을 것이라 가정했기 떄문
+
+## Why Self-Attention
+Self-attention layers와 recurrent and convolution layers와의 비교
+[그림 첨부]
+* layer별 총 연산의 complexity.
+* sequential parallelize 할 수 있는 계산의 양
+* Network에서 long-range dependencies(장거리 의존성) 사이 path length. 
+  > long-range dependency의 학습은 번역 업무에서 핵심 task
+  
+  > long-range dependency을 잘 학습하기 위해서 중요한 것은 forward 및 backward signal의 길이다.
+  
+  >  Input의 위치와 output의 위치의 길이가 짧을수록 dependency 학습이 쉬워짐
+  
+  >  layer types로 구성된 네트워크에서 input과 output 위치 사이 길이가 maximum 길이를 비교
+
+## Training
+* WMT 2014 English-German dataset, WMT 2014 English-French dataset
+* 8개의 NVIDIA P100 GPU로 학습
+* base model은 12시간 동안 (100,000 step) 학습, big model 은 3.5일 동안 (300,000 step) 학습
+* Adam optimizer
+* Regularization
+  > Residual Dropout
+  
+  > Label Smoothing
+
+## Results
+### Machine Translation
+[표 첨부]
+
+## Model Variations
+[표 첨부]
+
+## English Constituency Parsing
+[표 첨부]
+
