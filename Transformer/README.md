@@ -19,18 +19,23 @@
 
 # Model Architecture
 transformer은 self-attention과 point-wise를 따르며, 크게 Encoder와 Decoder로 구성되어있다.
-[사진 첨부]
+<p align="center"><img width="286" alt="스크린샷 2023-01-17 오후 8 58 32" src="https://user-images.githubusercontent.com/56713634/212893467-5078ac29-5db2-401d-8fe3-7587d7e126ed.png"><p>
+
 
 ## Encoder and Decoder Stacks
 ### Encoder
-[사진 첨부]
+
+<p align="center"><img width="180" alt="스크린샷 2023-01-17 오후 9 03 24" src="https://user-images.githubusercontent.com/56713634/212894249-22aef785-b6e1-4853-827d-b03d1a36639e.png"><p>  
+ 
 * N = 6개의 layer의 stack으로 구성되어있음 이때, 각 layer는 2개의 sub-layer가 있다.
 * 첫번째 layer은 multi-head self-attention mechanism, 두번째 layer은 position-wise fully connected feed-forward network
 * 이 2개의 sub-lalyer에 각각 residual connection과 normalization을 적용  
   >  residual connection을 구현하기 위하여 모든 sub-layer(embedding layers 포함)의 output은 512
  
 ### Decoder
-[사진 첨부]
+
+ <p align="center"><img width="185" alt="스크린샷 2023-01-17 오후 9 03 34" src="https://user-images.githubusercontent.com/56713634/212894338-75385eb2-0a3d-401c-a82a-d8f70fc73f7c.png"><p>  
+  
 * Encoder와 동일하게 N = 6개의 layer의 stack으로 구성되어있음
 * 2개의 sub-layer에 세번째 sub-layer를 추가하여 encoder stack의 output에 대해 muti-head attention을 수행
 * decoder stack의 self-attention sub-layer를 수정하여 position이 subsequent positions에 attending하는 것을 막음 __masking__
@@ -44,7 +49,8 @@ attention function은 query와 key-value쌍을 query, keys, values, output이 �
 [필요시 추가 설명 첨부]
 
 ### Scaled Dot-Product Attention
-[사진 첨부]
+
+<p align="center"><img width="176" alt="스크린샷 2023-01-16 오후 10 59 37" src="https://user-images.githubusercontent.com/56713634/212894466-ae57f911-bad8-4b34-92b1-bfcac00d5106.png"><p> 
 
 * input : Query(Q), Key(K), Value(V)
 
@@ -56,7 +62,9 @@ weight는 Q와 K의 조합으로 계산됨 이때, Additive attention과 dot-pro
   > matrix를 통해 최적화된 연산을 구현할 수 있기 때문에 훨씬 빠르고 공간 효율적 (hidden layer를 곱하는 과정이 추가되지 않아서 연산 속도와 space 측면에서 효율적)
   
   > q 와 k 의 dimension이 같아야 한다는 제약조건이 있으며, dimension이 클 때 학습에 방해 될 수 있음
-[식 첨부]
+ 
+<p align="center"><img width="176" alt="스크린샷 2023-01-16 오후 10 59 37" src="https://user-images.githubusercontent.com/56713634/212894466-ae57f911-bad8-4b34-92b1-bfcac00d5106.png"><p> 
+  
 * Scaled Dot-Product은 Dot-Produc에 scaleling 수행한 것
 * d_k가 값이 작은 경우에는 dot-product와 scaled dot-product가 유사하게 수행하지만 값이 커지면 scale이 더 우수함
 * d_k 값이 클 때, dot-product의 size가 커지면서 softmax를 극도로 작은 gradient를 갖게 된다. 
