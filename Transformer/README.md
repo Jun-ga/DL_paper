@@ -45,25 +45,40 @@ transformer은 self-attention과 position-wise를 따르며, 크게 Encoder와 D
 attention function은 query와 key-value쌍을 query, keys, values, output이 모두 vectors인 output에 mapping하는 것
 
 #### 동작 방식
+__encoder__   
+<p align="center"><img width="570" alt="스크린샷 2023-01-18 오전 11 35 11" src="https://user-images.githubusercontent.com/56713634/213068164-9317562b-edb6-4904-b30d-dc339eae4245.png"><p> 
    
-<p align="center"><img width="357" alt="스크린샷 2023-01-18 오전 12 49 08" src="https://user-images.githubusercontent.com/56713634/212945605-95250bb6-0fa6-4bd4-9916-831d7775c175.png"><p> 
-   
-* 빨간색 vector : encoder의 매 time step마다의 hidden state
-* 초록색 vector : 마지막 hidden state vector는 decoder의 h0이 되어 x와 곱셈을 하여 나온 값
-* encoder의 모든 hidden state vector를 고려하기 위해 초록색 vector와 빨간색 vectore들의 내적을 각각 구한다 
-* 내적으로 부터 얻은 유사도에 softmax를 취하여 각 hidden state를 얼마나 반영할 것인지를 의미하는 weight를 구한다. 이러한 weight들을 Attention vector 
-* Attention모듈의 output은 encoder hidden state들의 가중 평균 vector가 됨 -> __context vector__
+* time step에 나 는 학생 이다 4개의 단어 입력
+* 그에 따라 4개의 hidden state vector
+* 각 단어의 hidden state vector를 모두 이용하여 입력된 단어와 같은 수의 vector을 얻을 수 있음
 
-<p align="center"><img width="442" alt="스크린샷 2023-01-18 오전 12 49 14" src="https://user-images.githubusercontent.com/56713634/212950836-d2e2a389-403e-4d6c-a3a3-8b2dd44c331a.png"><p>
+__decoder__
+<p align="center"><img width="681" alt="스크린샷 2023-01-18 오전 11 35 17" src="https://user-images.githubusercontent.com/56713634/213068232-af742f1a-2edf-45c9-9897-9103e309f8af.png"><p>
   
-* Attention모듈의 input은 초록색 vector와 빨간색 vector, output은 가장 상단의 vector
-* decoder hidden state vector와 Attention output vector는 h1이 되어 다음 단계의 hidden state로 전달
-* 새로운 x와 곱셈을 하여 하단의 두번쨰 초록색 vector
-* 이 vector로 encoder의 빨간색 hidden state vector들과 내적을 통해 유사도를 계산한 후 가중 평균 벡터를 구한 후, 이 가중 평균 벡터와 concatenate하여 output layer의 input으로 들어가 output을 예측
+__attention__
+<p align="center"><img width="659" alt="스크린샷 2023-01-18 오전 11 35 24" src="https://user-images.githubusercontent.com/56713634/213068277-e8f89485-eb5c-441c-baaa-b4dcb2fb65ca.png"><p>
   
-<p align="center"><img width="510" alt="스크린샷 2023-01-18 오전 12 49 19" src="https://user-images.githubusercontent.com/56713634/212951794-82014417-1000-4d86-bd13-217fc7d9258d.png"><p>
+#### Attention weight layer
+encoder가 출력하는 단어의 hidden state vector에 주목하여 가중치 a 구하는 부분
+ > 즉, 디코더에서 출력된 hidden state vector(h)와 인코더에서 넘어온 hidden state vector(hs)를 이용하여 가중치 (a)를 구하는 단계
+ 
+__어떻게 집중하는데? -> 각 단어의 가중치(중요도 or 기여도)를 계산하여 반영__
+  
+<p align="center"><img width="493" alt="스크린샷 2023-01-18 오전 11 45 04" src="https://user-images.githubusercontent.com/56713634/213069771-a527b79a-b6de-4eab-b364-c3e4877c3be5.png"><p>  
+  
+* Attention weight layer에서 출력된 vector를 __Attention score__
+* Attention score가 클수록 유사도가 높다.
+* Attention score값을 바로 사용하지않고 한번 정규화(softmax)를 적용하여 사용
+ 
+  
+#### Weight Sum layer
+a와 hidden state의 가중합을 구하여 context vector 출력하는 부분
+  
+<p align="center"><img width="589" alt="스크린샷 2023-01-18 오전 11 47 44" src="https://user-images.githubusercontent.com/56713634/213070111-904cb1f5-9e52-4c18-a378-c5113ef12804.png"><p>  
   
 ### Scaled Dot-Product Attention
+
+  
 
 <p align="center"><img width="176" alt="스크린샷 2023-01-16 오후 10 59 37" src="https://user-images.githubusercontent.com/56713634/212894466-ae57f911-bad8-4b34-92b1-bfcac00d5106.png"><p> 
 
