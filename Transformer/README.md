@@ -148,11 +148,9 @@ Transformer는 다음의 방식으로 multi-head attnetion을 사용한다.
 ## Position-wise Feed-Forward Networks
 인코더와 디코더의 각 layer는 fully connected feed-forward network를 가짐
 * 각 position에 개별적으로 동일하게 적용
-* 중간에 ReLU activation이 있는 두 가지 linear transformation 구성
 
 <p align="center"><img width="195" alt="스크린샷 2023-01-18 오전 2 11 22" src="https://user-images.githubusercontent.com/56713634/212965970-81248c46-e371-480c-8177-e4c848e8f3b3.png"><p> 
-  
-* linear transformation은 다른 position에 대해 동일하지만 layer간 parameter는 다름
+
 * input과 output의 차원은 512, inner-layer의 차원은 2048
 
 
@@ -185,9 +183,9 @@ Self-attention layers와 recurrent and convolution layers와의 비교
   
   > long-range dependency을 잘 학습하기 위해서 중요한 것은 forward 및 backward signal의 길이다.
   
-  >  Input의 위치와 output의 위치의 길이가 짧을수록 dependency 학습이 쉬워짐
+  > Input의 위치와 output의 위치의 길이가 짧을수록 dependency 학습이 쉬워짐
   
-  >  layer types로 구성된 네트워크에서 input과 output 위치 사이 길이가 maximum 길이를 비교
+  > layer types로 구성된 네트워크에서 input과 output 위치 사이 길이가 maximum 길이를 비교
 
 # Training
 * WMT 2014 English-German dataset, WMT 2014 English-French dataset
