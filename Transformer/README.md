@@ -14,7 +14,7 @@
   > 최근의 연구는 factorization tricks, conditional computation을 통해 효율적인 연산처리를 진행했지만 아직 순차적 제약 발생
 * Attention mechanisms은 input, output sequence의 길이에 상관하지않음 하지만 여전히 __recurrent network와 함께 사용됨__
 * 본 모델은 recurrent network를 제거하고 input과 ouput간의 global dependency를 뽑아내기 위해 attention mechanism만을 사용하는 __transformer__ 를 제안한다.
-  > 이 모델은 8개의 P100 GPU로 12시간 호학습하여 병렬처리와 SOTA를 달성한다.
+  > 이 모델은 8개의 P100 GPU로 12시간동안 학습하여 병렬처리와 SOTA를 달성한다.
 
 
 # Model Architecture
@@ -42,7 +42,6 @@ transformer은 self-attention과 position-wise를 따르며, 크게 Encoder와 D
 * residual connection과 normalization을 적용
 
 ## Attention
-attention function은 query와 key-value쌍을 query, keys, values, output이 모두 vectors인 output에 mapping하는 것
 
 #### 동작 방식
 __encoder__   
@@ -93,7 +92,7 @@ weight는 Q와 K의 조합으로 계산됨 이때, Additive attention과 dot-pro
   
   > q 와 k 의 dimension이 같아야 한다는 제약조건이 있으며, dimension이 클 때 학습에 방해 될 수 있음
  
-<p align="center"><img width="176" alt="스크린샷 2023-01-16 오후 10 59 37" src="https://user-images.githubusercontent.com/56713634/212894466-ae57f911-bad8-4b34-92b1-bfcac00d5106.png"><p> 
+<p align="center"><img width="218" alt="스크린샷 2023-01-17 오후 9 05 48" src="https://user-images.githubusercontent.com/56713634/213072382-e19d4535-74ed-4b03-b7b5-27030626db5d.png"><p> 
   
 * Scaled Dot-Product은 Dot-Produc에 scaleling 수행한 것
 * d_k가 값이 작은 경우에는 dot-product와 scaled dot-product가 유사하게 수행하지만 값이 커지면 scale이 더 우수함
