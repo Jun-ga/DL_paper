@@ -42,7 +42,9 @@ transformer은 self-attention과 position-wise를 따르며, 크게 Encoder와 D
 * residual connection과 normalization을 적용
 
 ## Attention
-
+   
+<img width="626" alt="스크린샷 2023-01-18 오후 12 16 37" src="https://user-images.githubusercontent.com/56713634/213075099-572d07a6-eae5-4a10-81fd-b626de4f1171.png">
+   
 #### 동작 방식
 __encoder__   
 <p align="center"><img width="570" alt="스크린샷 2023-01-18 오전 11 35 11" src="https://user-images.githubusercontent.com/56713634/213068164-9317562b-edb6-4904-b30d-dc339eae4245.png"><p> 
@@ -82,6 +84,11 @@ a와 hidden state의 가중합을 구하여 context vector 출력하는 부분
 <p align="center"><img width="176" alt="스크린샷 2023-01-16 오후 10 59 37" src="https://user-images.githubusercontent.com/56713634/212894466-ae57f911-bad8-4b34-92b1-bfcac00d5106.png"><p> 
 
 * input : Query(Q), Key(K), Value(V)
+  
+1. 찾고 싶은 Q 입력
+2. K-V를 통해 유사도 계산
+3. 유사도를 확률로 변환
+4. 유사도 깂들의 가중합을 최종 결과로 반환
 
 #### Attention Function
 weight는 Q와 K의 조합으로 계산됨 이때, Additive attention과 dot-product attention 두가지의 방법이 존재
@@ -103,6 +110,10 @@ weight는 Q와 K의 조합으로 계산됨 이때, Additive attention과 dot-pro
 
 ### Multi-Head Attention
 single attention을 d_model 차원에 Q,K,V를 사용하여 수행하는 것보다 d_k, d_k, d_v 차원에 대해 학습된 서로 다른 linear projection을 사용하여 query, key, value를 h회 linear projection하는 것이 유익을 발견
+
+* head란 attention을 수행하는 주체
+* multi-head : 여러번 attention을 수행하겠다는 의미
+> 동일한 소스에 대해 여러번 수행하여 어디에 얼만큼 집중할지 여러가지 집중 방법을 시도할 수 있음(다른 관점에서 문장을 바라볼 수 있음)
   
 <p align="center"><img width="187" alt="스크린샷 2023-01-16 오후 10 59 43" src="https://user-images.githubusercontent.com/56713634/212965640-b703e9ba-d94c-44c2-b84c-c4b9af739274.png"><p> 
   
