@@ -130,10 +130,20 @@ single attention을 d_model 차원에 Q,K,V를 사용하여 수행하는 것보�
 ### Applications of Attention in our Model
 Transformer는 다음의 방식으로 multi-head attnetion을 사용한다.
 
-* "Encoder-Decoder Attention layer" 에서 query는 이전 decoder layer에서 얻고, key와 value는 encoder의 output에서 얻는다. 이를 통해 decoder의 모든 position이 input sequence의 모든 position에 배치될 수 있다. 이는 sequence-to-sequence 모델에서 일반적인 encoder-decoder attention 메커니즘과 동일하다.
-* Self-Attention layer는 encoder에 존재하며 query, key, value가 동일하며, 이는 encoder에 있는 이전 layer의 output이다. Encoder의 각 position은 이전 layer의 모든 position에 attend 할 수 있다.
-* Self-Attention layer는 decoder에도 존재하며, 마찬가지로, decoder의 self-attention layer는 각 position이 해당 position의 위치까지 docoder의 모든 position에 attned하도록 한다. auto-regressive propert를 유지하기 위해 decoder에서 leftward information flow을 막아야 한다 (미래 시점의 단어를 볼 수 없도록 하는 것). 이를 위해 매우 작은 수를 부여하여 softmax 결과 0에 수렴하도록 하여 masking을 수행한다.우리는 잘못된 연결에 해당하는 소프트맥스 입력의 모든 값을 마스킹(-)로 설정)하여 스케일링된 도트 제품 주의의 내부에서 이를 구현한다.
-
+#### "Encoder-Decoder Attention layer" 
+* decoder에서 self-attention 다음으로 사용되는 layer
+* queries는 이전 decoder layer에서 가져오고, keys와 values는 encoder의 output에서 가져옴
+* decoder의 모든 position의 vector들로 encoder의 모든 position 값들을 참조함으로써 decoder의 sequence vector들이 encoder의 sequence vector들과 어떠한 correlation을 가지는지를 학습
+  
+#### "self-attention in encoder"
+* encoder에서 사용되는 self-attention으로 queries, keys, values 모두 encoder로부터 가져옴
+* encoder의 각 position은 그 전 layer의 모든 positions들을 참조
+* 이는 해당 position과 모든 position간의 correlation information을 더해주게 된다. 간단하게 설명해서 어떤 한 단어가 모든 단어들 중 어떤 단어들과 correlation이 높고, 또 어떤 단어와는 낮은지를 학습
+* 이는 해당 position과 모든 position간의 correlation information을 더해주게 된다. 간단하게 설명해서 어떤 한 단어가 모든 단어들 중 어떤 단어들과 correlation이 높고, 또 어떤 단어와는 낮은지를 배우게 된다.  
+  
+#### "self-attention in decoder" 
+* 전체적인 과정과 목표는 encoder의 self-attention과 동일
+* sequence model의 auto-regressive property를 보존해야하기 때문에 masking vector를 사용하여 해당 position 이전의 벡터들만을 참조한다 _(이후에 나올 단어들을 참조하여 예측하는 것은 일종의 치팅)_
 
 ## Position-wise Feed-Forward Networks
 인코더와 디코더의 각 layer는 fully connected feed-forward network를 가짐
