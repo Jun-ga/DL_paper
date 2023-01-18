@@ -101,7 +101,7 @@ weight는 Q와 K의 조합으로 계산됨 이때, Additive attention과 dot-pro
  
 <p align="center"><img width="218" alt="스크린샷 2023-01-17 오후 9 05 48" src="https://user-images.githubusercontent.com/56713634/213072382-e19d4535-74ed-4b03-b7b5-27030626db5d.png"><p> 
   
-* Scaled Dot-Product은 Dot-Produc에 scaleling 수행한 것
+* Scaled Dot-Product은 Dot-Product에 scaling 수행한 것
 * d_k가 값이 작은 경우에는 dot-product와 scaled dot-product가 유사하게 수행하지만 값이 커지면 scale이 더 우수함
 * d_k 값이 클 때, dot-product의 size가 커지면서 softmax를 극도로 작은 gradient를 갖게 된다. 
 * 이를 개선하기 위해 __1/√(dk)__ 만큼 스케일링
