@@ -135,7 +135,7 @@ Transformer는 다음의 방식으로 multi-head attnetion을 사용한다.
 * Self-Attention layer는 decoder에도 존재하며, 마찬가지로, decoder의 self-attention layer는 각 position이 해당 position의 위치까지 docoder의 모든 position에 attned하도록 한다. auto-regressive propert를 유지하기 위해 decoder에서 leftward information flow을 막아야 한다 (미래 시점의 단어를 볼 수 없도록 하는 것). 이를 위해 매우 작은 수를 부여하여 softmax 결과 0에 수렴하도록 하여 masking을 수행한다.우리는 잘못된 연결에 해당하는 소프트맥스 입력의 모든 값을 마스킹(-)로 설정)하여 스케일링된 도트 제품 주의의 내부에서 이를 구현한다.
 
 
-### Position-wise Feed-Forward Networks
+## Position-wise Feed-Forward Networks
 인코더와 디코더의 각 layer는 fully connected feed-forward network를 가짐
 * 각 position에 개별적으로 동일하게 적용
 * 중간에 ReLU activation이 있는 두 가지 linear transformation 구성
@@ -146,13 +146,13 @@ Transformer는 다음의 방식으로 multi-head attnetion을 사용한다.
 * input과 output의 차원은 512, inner-layer의 차원은 2048
 
 
-### Embeddings and Softmax
+## Embeddings and Softmax
 * 학습된 embedding을 사용하여 input token과 output token을 d_model차원의 벡터로 변환
 * 학습된 linear transformation과 softmax 함수를 사용하여 decoder output을 예측된 다음 token 확률로 변환
 * 두 embedding layer와 softmax 이전 linear transformation 사이에서 동일한 weight matrix를 공유
 * Inner layer에서 이러한 weight를 가중치에 √(d_model)을 곱한다.
 
-### Positional Encoding
+## Positional Encoding
 Transformer는 순차적인 특성이 없고 이에 따라 sequence의 위치 정보가 없기 때문에 positional 정보를 추가해야함
 * 인코더와 디코더 stack 하단에 positional encodings을 추가
 * Positional encoding은 embedding과 동일한 차원을 가짐
@@ -163,7 +163,7 @@ Transformer는 순차적인 특성이 없고 이에 따라 sequence의 위치 �
 * Positional encoding의 각 차원은 sin파에 해당
 * 본 논문에서 이 함수를 사용한 이유는 어떠한 고정된 offset k에 대해서 PE_pos+k를 PE_pos의 linear function으로 나타낼 수 있기 때문에 모델이 쉽게 상대적인 위치를 참조할 수 있을 것이라 가정했기 떄문
 
-## Why Self-Attention
+# Why Self-Attention
 Self-attention layers와 recurrent and convolution layers와의 비교
 
 <p align="center"><img width="455" alt="스크린샷 2023-01-18 오전 2 12 59" src="https://user-images.githubusercontent.com/56713634/212966280-19253faf-84c6-494b-9dfb-2b1d6cd5ab4e.png"><p> 
@@ -179,7 +179,7 @@ Self-attention layers와 recurrent and convolution layers와의 비교
   
   >  layer types로 구성된 네트워크에서 input과 output 위치 사이 길이가 maximum 길이를 비교
 
-## Training
+# Training
 * WMT 2014 English-German dataset, WMT 2014 English-French dataset
 * 8개의 NVIDIA P100 GPU로 학습
 * base model은 12시간 동안 (100,000 step) 학습, big model 은 3.5일 동안 (300,000 step) 학습
@@ -189,16 +189,29 @@ Self-attention layers와 recurrent and convolution layers와의 비교
   
   > Label Smoothing
 
-## Results
+# Results
 ### Machine Translation
-
+English-to-German translation task에 대해서 다른 모델들과 성능을 비교한 실험
+  
 <p align="center"><img width="476" alt="스크린샷 2023-01-18 오전 2 14 01" src="https://user-images.githubusercontent.com/56713634/212966543-a4ef2c87-da14-4f2c-9dfe-e6ffaa3f9685.png"><p> 
-
+* BLEU는 기계 번역 결과와 사람이 직접 번역한 결과가 얼마나 유사한지 비교하여 번역에 대한 성능을 측정하는 방법
+* Transformer가 다른 모델들에 비해서 높은 성능을 가지면서 training cost 또한 낮음
+  
 ## Model Variations
 
+모델의 여러 조건들을 변경해가면서 성능에 어떠한 영향을 주는지를 보는 실험  
+  
 <p align="center"><img width="483" alt="스크린샷 2023-01-18 오전 2 14 07" src="https://user-images.githubusercontent.com/56713634/212966651-ce6eb8cd-6e01-4d32-9fcb-d9413c99b458.png"><p> 
+
+* (B) : key size를 너무 줄이면 quality가 안좋아짐
+* (C) : 큰 모델이 성능이 좋음
+* (D) : drop-out이 오버피팅을 방지
   
 ## English Constituency Parsing
 
-<p align="center"><img width="472" alt="스크린샷 2023-01-18 오전 2 14 14" src="https://user-images.githubusercontent.com/56713634/212966720-b41f9db7-eafb-469d-8242-3061e0fb423b.png"><p> 
+Transformer가 다른 task에서도 잘 동작하는지를 보기 위해서 English Constituency Parsing task에도 적용  
+>  Constituency Parsing : 어떠한 단어가 문법적으로 어떠한 것에 속하는지 분류하는 task
 
+<p align="center"><img width="472" alt="스크린샷 2023-01-18 오전 2 14 14" src="https://user-images.githubusercontent.com/56713634/212966720-b41f9db7-eafb-469d-8242-3061e0fb423b.png"><p> 
+  
+* transformer를 해당 task에 맞게 tuning하지 않았음에도 불구하고 좋은 성능
