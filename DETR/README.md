@@ -51,4 +51,25 @@ __direct set losses를 사용한다면, post-processing step은 필요하지않�
 * 그러나 RNN(자기 회귀 모델)을 기반으로 하기 때문에 병렬 디코딩을 수행하지 못한다.
 
 # The DETR model
+direct set prediction에 필수적인 요소는 아래와 같다
+1) Prediction와 ground truth boxes 사이의 고유한 매칭을 위한 set prediction loss
+2) Object set을 예측하고 이들의 relation을 모델링하는 아키텍쳐
 
+[사진 첨부]
+## Object detection set prediction loss
+* DETR은 decoder를 통해서 단 한번의 pass로 고정된 개수인 N개의 예측을 반환
+* 이때 N은 image내 전형적인 object의 개수보다 훨씬 커야함
+* 학습에서 가장 중요한 것중 하나는 ground truth와 관련하여 최적의 predicted object score를 구하는 것
+* loss는 예측한 object과 실제 object간의 최적의 이분매칭진행하여 bounding box별 loss 최적화한다.
+
+[식 첨부]
+
+* y : object의 ground truth set, y^ : N개의 prediction set
+* N은 이미지내의 객체 수 보다 많아지므로 y에 N크기가 되게끔 ∅(no object)를 추가(N이 이미지의 object 수보다 크다고 가정하고 y도 ∅(no object)로 채워진 N크기의 set으로 간주)
+* 두 set 사이의 매칭 loss 값의 합을 가장 적게 만드는 σ를 찾음 __σ^__ 은 매칭 결과 
+  > 하나의 요소가 N요소의 순열에 포함 되는 것을 이분 매칭을 통해 찾았을때, cost가 가장 낮게 된다. 
+  
+[식 첨부]
+* L_match : ground truth y와 prediction y_hat의 pair-wise matching cost
+* 두 set 사이의 매칭 loss 값의 합을 가장 적게 만드는 σ를 찾음 아래 수식의 σ_hat은 매칭 결과 (y, y_hat 조합) ㅊㅓㅁㅂ
+* 두 set 사이의 매칭 loss 값의 합을 가장 적게 만드는 σ를 찾음 아래 수식의 σ_hat은 매칭 결과 (y, y_hat 조합
