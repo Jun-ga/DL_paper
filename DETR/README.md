@@ -68,8 +68,27 @@ direct set prediction에 필수적인 요소는 아래와 같다
 * N은 이미지내의 객체 수 보다 많아지므로 y에 N크기가 되게끔 ∅(no object)를 추가(N이 이미지의 object 수보다 크다고 가정하고 y도 ∅(no object)로 채워진 N크기의 set으로 간주)
 * 두 set 사이의 매칭 loss 값의 합을 가장 적게 만드는 σ를 찾음 __σ^__ 은 매칭 결과 
   > 하나의 요소가 N요소의 순열에 포함 되는 것을 이분 매칭을 통해 찾았을때, cost가 가장 낮게 된다. 
+* L_match : ground truth y와 prediction y_hat의 pair-wise matching cost
+  > 일대일 매칭시 loss값  
   
 [식 첨부]
-* L_match : ground truth y와 prediction y_hat의 pair-wise matching cost
-* 두 set 사이의 매칭 loss 값의 합을 가장 적게 만드는 σ를 찾음 아래 수식의 σ_hat은 매칭 결과 (y, y_hat 조합) ㅊㅓㅁㅂ
-* 두 set 사이의 매칭 loss 값의 합을 가장 적게 만드는 σ를 찾음 아래 수식의 σ_hat은 매칭 결과 (y, y_hat 조합
+
+* Hungarian algorithm은 가능한 모든 경우의 매칭 loss를 작게 만들 수 있는 경우를 찾는 방법
+* ground truth요소를 yi = (c_i, b_i)라 할때, c_i = class label b_I = bounding box의 중심좌표, 높이, 너비인 4차원 정보
+* prediction요소는 class의 확률값 : p^ bounding box의 확률값 : b^
+* L_box : bounding box가 얼마나 유사한지에 대한 loss값
+* class가 no object일때, 가중치에 10배의 감소를 준다.
+  > 이때, prediction에 영향이 없기 때문에 cost는 일정
+  > class의 불균형을 해결하기 위함
+
+### Bounding box loss
+Region proposal이나 anchor 기반으로 bounding box를 예측하는 기존 방식과 달리 directly box prediction을 수행한다. Scale을 고려하기 위해 prediction과 ground truth의 차이에 대해 L1 loss와 GIoU를 함께 사용한다.
+> box를 예측할때 L1 loss는 큰상자와 작은상자의 오차가 유사하더라도 다른 scale을 가지기 때문에 L1 loss와 GIOU loss를 조합하여 scale 을 다양하지 않게 만듦으로 이런 문제를 완화함
+
+## DETR architecture
+feature 추출을 위한 CNN backbone, encoder-decoder 구조의 transformer, 최종 detection prediction을 수행하는 FFN(Feed Forward Network)로 총 세가지 구성요소로 이뤄져있다.
+
+[사진 첨부]
+
+### Backbone
+
