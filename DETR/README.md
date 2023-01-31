@@ -16,10 +16,10 @@
 * object 문제를 direct set prediction으로 바라봄
 * transformer에서 기반한 decoder-encoder 구조를 사용
 * self-attention mechanism은 이 구조가 중복 예측을 제거하여 set prediction의 제약을 특히 다루기 쉽게 만들어줌
-* 한번에 모든 object를 예측하기 위해, 예측 object와 ground-truth object 사이의 양자간 매칭(bipartite matching) 을 수행하는 a set loss function(여러 개을 통해 end-to-end로 학습
-* 이분매칭과 병렬처리가 가능하다는 것이 큰 특징
+* 한번에 모든 object를 예측하기 위해, 예측 object와 ground-truth object 사이의 양자간 매칭(bipartite matching) 을 수행하는 a set loss function을 통해 end-to-end로 학습
 * 기존의 autoregressive하게 학습하는 RNN 구조를 사용하는 것이 아니라 병렬적으로 decoding을 수행
   > 순서에 영향받지 않는 Set prediction에 적합
+* __이분매칭과 병렬처리가 가능하다는 것이 큰 특징__
 * Faster R-CNN와 견주었을때 더 좋은 성능을 보임
   > 특히, 큰 물체에 대한 높은 성능 -> transformer의 non-local computation에 의해 나온 결과
   > 작은 물체에 대해서는 상대적으로 낮은 성능
