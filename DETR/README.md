@@ -3,21 +3,26 @@
 # Introduction
 
 * object detection는 category label과 bounding boxes 집합을 예측하는 것
-* 현대의 detectos들은 set prediction task를 간접적으로 다루고 있다.
+* 현대의 detectors들은 set prediction task를 간접적으로 다루고 있다.
   > a large set of proposals, achors, window enter등을 통해 정의
+  
   > 이러한 예측은 후처리, anchor set 정의, heuristics하게 target boxes to anchors 할당하는데 크게 의존 함
-* 본 모델은 이러한 과정을 간소화 하기 위해서 suurogate task를 패스하고 direct set prediction을 수행하는 방법론을 제안
+* 본 모델은 이러한 과정을 간소화 하기 위해서 surrogate task를 패스하고 direct set prediction을 수행하는 방법론을 제안
 * end-to-end 방법론은 기계번역과 음성식에서는 큰 발전을 보였지만, object 분야에서는 없었다.
 
 <p align="center"><img width="381" alt="스크린샷 2023-01-31 오후 4 33 20" src="https://user-images.githubusercontent.com/56713634/215695263-69971ce5-a64f-44b1-9d47-c48cfd920c3d.png"></p>
 
 
-* object 문제를 direct set prediction으로 바라 본다.
+* object 문제를 direct set prediction으로 바라봄
 * transformer에서 기반한 decoder-encoder 구조를 사용
 * self-attention mechanism은 이 구조가 removing duplicate prediction과 같은 set prediction의 제약을 특히 다루기 쉽게 만들어줌
 * 한번에 모든 object를 예측하기 위해, 예측 object와 ground-truth object 사이의 양자간 매칭(bipartite matching) 을 수행하는 a set loss function(여러 개을 통해 end-to-end로 학습
-
-추가로 작성해야하는데 아이디어가 안떠오름 일단 비워두기
+* 이분매칭과 병렬처리가 가능하다는 것이 큰 특징
+* 기존의 autoregressive하게 학습하는 RNN 구조를 사용하는 것이 아니라 병렬적으로 decoding을 수행
+  > 순서에 영향받지 않는 Set prediction에 적합
+* Faster R-CNN와 견주었을때 더 좋은 성능을 보임
+  > 특히, 큰 물체에 대한 높은 성능 -> transformer의 non-local computation에 의해 나온 결과
+  > 작은 물체에 대해서는 상대적으로 낮은 성능
 
 
 # Related work
