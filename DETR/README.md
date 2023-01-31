@@ -8,7 +8,7 @@
   
   > 이러한 예측은 후처리, anchor set 정의, heuristics하게 target boxes to anchors 할당하는데 크게 의존 함
 * 본 모델은 이러한 과정을 간소화 하기 위해서 surrogate task를 패스하고 direct set prediction을 수행하는 방법론을 제안
-* end-to-end 방법론은 기계번역과 음성식에서는 큰 발전을 보였지만, object 분야에서는 없었다.
+* end-to-end 방법론은 기계번역과 음성인식에서는 큰 발전을 보였지만, object 분야에서는 없었다.
 
 <p align="center"><img width="381" alt="스크린샷 2023-01-31 오후 4 33 20" src="https://user-images.githubusercontent.com/56713634/215695263-69971ce5-a64f-44b1-9d47-c48cfd920c3d.png"></p>
 
