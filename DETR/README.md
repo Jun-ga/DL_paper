@@ -4,7 +4,7 @@
 
 * object detection는 category label과 bounding boxes 집합을 예측하는 것
 * 현대의 detectors들은 set prediction task를 간접적으로 다루고 있다.
-  > a large set of proposals, achors, window enter등을 통해 정의
+  > a large set of proposals, achors, window center등을 통해 정의
   
   > 이러한 예측은 후처리, anchor set 정의, heuristics하게 target boxes to anchors 할당하는데 크게 의존 함
 * 본 모델은 이러한 과정을 간소화 하기 위해서 surrogate task를 패스하고 direct set prediction을 수행하는 방법론을 제안
