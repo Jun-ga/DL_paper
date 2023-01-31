@@ -123,4 +123,64 @@ feature 추출을 위한 CNN backbone, encoder-decoder 구조의 transformer, �
 
 # Experiments
 COCO 2017 detection을 사용하여 Faster R-CNN과 정량적으로 비교
+
 ## Comparison with Faster R-CNN
+
+<p align="center"><img width="382" alt="스크린샷 2023-01-31 오후 4 37 57" src="https://user-images.githubusercontent.com/56713634/215708268-ee5cf30a-d4e9-407b-8054-2f7ddedc21cf.png"></p>
+
+* 큰 object의 경우 DETR이 잘 구분하지만, 작은 object는 상대적으로 구분하지못함
+
+## Ablations
+### Number of encoder layer
+<p align="center"><img width="377" alt="스크린샷 2023-01-31 오후 4 38 04" src="https://user-images.githubusercontent.com/56713634/215709699-2c0c8269-0403-4ca8-9f53-1cf186844f67.png"></p>
+
+* encoder layer의 증가로 AP가 증가함
+  > global한 scene reasoning을 수행해서 object 들을 구별하는 데에 중요한 역할
+
+<p align="center"><img width="379" alt="스크린샷 2023-01-31 오후 4 38 10" src="https://user-images.githubusercontent.com/56713634/215709965-6571cf69-2451-4ca6-8704-d30921afc73c.png"></p>
+
+* encoder의 self-attention 과정으로 activation map을 시각화한 것
+* 다음과 같이 인스턴스가 잘 나눠진다면 디코더 파트에서 예측하는 것이 쉬워짐
+
+### Number of decoder layers.
+object를 detection할 때, decoder의 단계가 매우 중요
+  > 충분한 layer를 가진 decoder가 좋은 성능을 가지게 함
+  
+<p align="center"><img width="204" alt="스크린샷 2023-01-31 오후 4 38 16" src="https://user-images.githubusercontent.com/56713634/215711142-b38a992d-1b64-411d-9f39-34f31fc1096a.png"></p>
+
+<p align="center"><img width="358" alt="스크린샷 2023-01-31 오후 4 38 26" src="https://user-images.githubusercontent.com/56713634/215712311-8d16d6ff-e592-4b90-83a5-0ddb1fa7a89f.png"></p>
+* decoder attention은 상당히 지역적
+* object의 head나 legs 쪽을 attention
+* 인코더가 global하게 attention하여 object의 인스턴스를 분리하는 반면 디코더는 object의 경계를 추출하기 위해 head와 legs에 attention한다
+
+### Importance of positional encodings
+상대적인 위치 정보를 처리하기 위해 본 모델에는 두가지 종류의 positional encodings이 존재 spatial positional과 output positional 
+
+<p align="center"><img width="375" alt="스크린샷 2023-01-31 오후 4 38 34" src="https://user-images.githubusercontent.com/56713634/215713268-77684e19-e3e7-41be-98df-262aadefcfbd.png"></p>
+
+* positional encoding시 가장 성능이 좋음
+
+### Loss ablations
+Loss function에서 L1 loss와 GIOU loss의 영향을 파악하기 위한 실험
+이 결과를 통해 본 논문에서 사용하는 loss function의 타당성을 부여
+<p align="center"><img width="358" alt="스크린샷 2023-01-31 오후 4 38 40" src="https://user-images.githubusercontent.com/56713634/215714696-d96db132-867f-421f-a97f-319e19c6eca0.png"></p>
+
+## Analysis
+각각의 object query가 개별적으로 역할을 수행 이를 아래와 같이 시각화
+<p align="center"><img width="374" alt="스크린샷 2023-01-31 오후 4 38 48" src="https://user-images.githubusercontent.com/56713634/215715186-c5cbdd2e-ef92-4ef4-80f2-e7d265994255.png"></p>
+
+* 점들은 각각의 bounding box의 center값에 해당
+* 각각 서로 다른 different area와 box size를 가지게 되도록 학습
+  >  N개의 object query는 이미지가 주어졌을 때 각각 다른 영역과 박스 크기에 관심
+  
+## DETR for panoptic segmentation
+DETR은 panoptic segmentation에 이용 될 수 있는데 원래 DETR의 구동 방식 대로, Box를 예측하고 mask head를 달아서 segmentation을 진행한다.
+  > panoptic segmentation : stuff와 thing을 모두 segmentation하는 vision의 task
+  
+<p align="center"><img width="393" alt="스크린샷 2023-01-31 오후 4 38 56" src="https://user-images.githubusercontent.com/56713634/215715954-1327e10c-51a7-47a7-9553-b8c53c4dad02.png"></p>
+
+<p align="center"><img width="374" alt="스크린샷 2023-01-31 오후 4 39 03" src="https://user-images.githubusercontent.com/56713634/215715715-5f6ad1c2-0289-47d1-a1df-c1ee8ef970ad.png"></p>
+
+# Conclusion
+ Object detection 분야에서 end-to-end 방식의 새로운 구조를 제안했다. Partite matching (이분매칭) & Transformer encoder-decoder architecture를 활용하여 큰 object에 대해서는 탐지 성능이 좋지만 작은 object에 대해서는 상대적으로 안 좋은 탐지 성능을 보였다.
+
