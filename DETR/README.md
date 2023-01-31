@@ -9,7 +9,8 @@
 * 본 모델은 이러한 과정을 간소화 하기 위해서 suurogate task를 패스하고 direct set prediction을 수행하는 방법론을 제안
 * end-to-end 방법론은 기계번역과 음성식에서는 큰 발전을 보였지만, object 분야에서는 없었다.
 
-[사진 첨부]
+<p align="center"><img width="381" alt="스크린샷 2023-01-31 오후 4 33 20" src="https://user-images.githubusercontent.com/56713634/215695263-69971ce5-a64f-44b1-9d47-c48cfd920c3d.png"></p>
+
 
 * object 문제를 direct set prediction으로 바라 본다.
 * transformer에서 기반한 decoder-encoder 구조를 사용
@@ -55,14 +56,16 @@ direct set prediction에 필수적인 요소는 아래와 같다
 1) Prediction와 ground truth boxes 사이의 고유한 매칭을 위한 set prediction loss
 2) Object set을 예측하고 이들의 relation을 모델링하는 아키텍쳐
 
-[사진 첨부]
+<p align="center"><img width="381" alt="스크린샷 2023-01-31 오후 4 34 26" src="https://user-images.githubusercontent.com/56713634/215695509-c8e97ee2-8e6a-41c7-8818-434b1e469fb2.png"></p>
+
+
 ## Object detection set prediction loss
 * DETR은 decoder를 통해서 단 한번의 pass로 고정된 개수인 N개의 예측을 반환
 * 이때 N은 image내 전형적인 object의 개수보다 훨씬 커야함
 * 학습에서 가장 중요한 것중 하나는 ground truth와 관련하여 최적의 predicted object score를 구하는 것
 * loss는 예측한 object과 실제 object간의 최적의 이분매칭진행하여 bounding box별 loss 최적화한다.
 
-[식 첨부]
+<p align="center"><img width="160" alt="스크린샷 2023-01-31 오후 4 35 34" src="https://user-images.githubusercontent.com/56713634/215695704-fd5bf9a6-0b5e-4e18-a44b-d776bd177be1.png"></p>
 
 * y : object의 ground truth set, y^ : N개의 prediction set
 * N은 이미지내의 객체 수 보다 많아지므로 y에 N크기가 되게끔 ∅(no object)를 추가(N이 이미지의 object 수보다 크다고 가정하고 y도 ∅(no object)로 채워진 N크기의 set으로 간주)
@@ -71,7 +74,7 @@ direct set prediction에 필수적인 요소는 아래와 같다
 * L_match : ground truth y와 prediction y_hat의 pair-wise matching cost
   > 일대일 매칭시 loss값  
   
-[식 첨부]
+<p align="center"><img width="313" alt="스크린샷 2023-01-31 오후 4 35 39" src="https://user-images.githubusercontent.com/56713634/215695749-e510eb6a-ff51-4e88-962a-d75bba1c0c0a.png"></p>
 
 * Hungarian algorithm은 가능한 모든 경우의 매칭 loss를 작게 만들 수 있는 경우를 찾는 방법
 * ground truth요소를 yi = (c_i, b_i)라 할때, c_i = class label b_I = bounding box의 중심좌표, 높이, 너비인 4차원 정보
@@ -88,7 +91,36 @@ Region proposal이나 anchor 기반으로 bounding box를 예측하는 기존 �
 ## DETR architecture
 feature 추출을 위한 CNN backbone, encoder-decoder 구조의 transformer, 최종 detection prediction을 수행하는 FFN(Feed Forward Network)로 총 세가지 구성요소로 이뤄져있다.
 
-[사진 첨부]
+<p align="center"><img width="381" alt="스크린샷 2023-01-31 오후 4 34 26" src="https://user-images.githubusercontent.com/56713634/215695509-c8e97ee2-8e6a-41c7-8818-434b1e469fb2.png"></p>
 
 ### Backbone
+* feature extraction을 하는 cnn 구조 사용
+* 본문에서는 ImageNet으로 학습한 ResNet50 혹은 ResNet101
+* channels=2048, height과 width는 input의 1/32의 feature map 생성
 
+
+
+### Transformer encoder
+
+* 1x1 convolution으로 feature map의 channel을 압축하여 feature map을 sequence data로 변형
+  > dxWH 차원의 새로운 feature map으로 변형됨
+* loss 계산할 때 permutation 구하므로 invariant 하도록 각 attention layer의 인풋으로 positional encoding을 추가
+
+### Transformer decoder
+
+* permutation-invariant를 위해 positional encoding이 사용됨
+* object query : 학습이 가능한 positional embedding
+* 각 embedding은 각기 다른 object를 의미
+  > output은 FFN을 통해 N개의 box coordinates와 class label
+* ground-truth의 object와 동일한 개수의 object를 예측할 수 있도록 FFN과 위의 Hungarian loss는 각 decoder layer에 계산됨
+  > FFN은 parameter을 공유된다.
+ 
+### Transformer Feed-forward
+* N개의 decoder output을 독립적인 input으로 받아서 각각의 class와 bounding box 값을 예측
+* network는 3-layer의 perceptron과 ReLu activation function으로 구성
+* 만약 클래스가 없다면 "no object"로 결과가 산출되고 이미지 상 Background 
+
+
+# Experiments
+COCO 2017 detection을 사용하여 Faster R-CNN과 정량적으로 비교
+## Comparison with Faster R-CNN
