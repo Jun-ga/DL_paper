@@ -21,7 +21,8 @@
   > 순서에 영향받지 않는 Set prediction에 적합
 * __이분매칭과 병렬처리가 가능하다는 것이 큰 특징__
 * Faster R-CNN와 견주었을때 더 좋은 성능을 보임
-  > 특히, 큰 물체에 대한 높은 성능 -> transformer의 non-local computation에 의해 나온 결과
+  > 특히, 큰 물체에 대한 높은 성능
+  
   > 작은 물체에 대해서는 상대적으로 낮은 성능
 
 
@@ -130,6 +131,7 @@ feature 추출을 위한 CNN backbone, encoder-decoder 구조의 transformer, �
 COCO 2017 detection을 사용하여 Faster R-CNN과 정량적으로 비교
 
 ## Comparison with Faster R-CNN
+* 최대한 합리적인 비교를 위해 기본적인 Faster R-CNN에 여러 요소를 추가
 
 <p align="center"><img width="382" alt="스크린샷 2023-01-31 오후 4 37 57" src="https://user-images.githubusercontent.com/56713634/215708268-ee5cf30a-d4e9-407b-8054-2f7ddedc21cf.png"></p>
 
@@ -185,6 +187,10 @@ DETR은 panoptic segmentation에 이용 될 수 있는데 원래 DETR의 구동 
 <p align="center"><img width="393" alt="스크린샷 2023-01-31 오후 4 38 56" src="https://user-images.githubusercontent.com/56713634/215715954-1327e10c-51a7-47a7-9553-b8c53c4dad02.png"></p>
 
 <p align="center"><img width="374" alt="스크린샷 2023-01-31 오후 4 39 03" src="https://user-images.githubusercontent.com/56713634/215715715-5f6ad1c2-0289-47d1-a1df-c1ee8ef970ad.png"></p>
+
+* decoder가 출력한 결과물을 encoder에 의해 encoding 된 결과물과 attention 수행
+* 이를 통해 attention map을 기반으로 여러 resolution의 feature map과 연산을 통해 masked image를 얻음
+* masked image의 픽셀마다 argmax를 적용하여 특정 object로의 분류 
 
 # Conclusion
  Object detection 분야에서 end-to-end 방식의 새로운 구조를 제안했다. Partite matching (이분매칭) & Transformer encoder-decoder architecture를 활용하여 큰 object에 대해서는 탐지 성능이 좋지만 작은 object에 대해서는 상대적으로 안 좋은 탐지 성능을 보였다.
