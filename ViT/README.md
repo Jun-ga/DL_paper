@@ -25,7 +25,7 @@
 모델 설계시 원래의 Transformer를 가능한 가깝게 따름
 
 ## VISION TRANSFORMER (ViT)
-[사진 넣기]
+<p align="center"><img width="866" alt="스크린샷 2023-02-20 오후 11 46 44" src="https://user-images.githubusercontent.com/56713634/220137650-b62d91ea-c78f-4ff8-8991-17f2530ba098.png"></p>
 
 * Transformer은 1D token embedding sqeunce를 input으로 받음
 * 2D 이미지 <img width="90" alt="스크린샷 2023-02-20 오후 5 28 31" src="https://user-images.githubusercontent.com/56713634/220052481-817875f6-db40-4f00-87c4-8df968f5df1b.png"> 를 flatten 된 2D 이미지 패치인 <img width="103" alt="스크린샷 2023-02-20 오후 5 28 26" src="https://user-images.githubusercontent.com/56713634/220052590-24072529-f75d-404e-a94e-d106d22771fe.png"> 로 재구성
@@ -42,7 +42,7 @@
 * Transformer 인코더는 Multi-headed self-attention 및 MLP block
 * Layernorm(LN)은 모든 block 이전에 적용되고 residual connection 은 모든 block 이후에 적용
 
-[식 첨부]
+<p align="center"><img width="871" alt="스크린샷 2023-02-20 오후 11 47 49" src="https://user-images.githubusercontent.com/56713634/220137900-05325066-c7a3-4f2f-a5db-0070e369dbe3.png"></p>
 
 #### Inductive Bias
 ViT는
@@ -77,7 +77,7 @@ pre-trained 한 모델들을 benchmark tasks에 transfer
 
 #### Model Variants
 3개의 size로 실험 진행 각 사이즈에서 다양한 패치 크기에 대한 실험 진행
-[테이블 1 첨부]
+<p align="center"><img width="590" alt="스크린샷 2023-02-20 오후 11 48 29" src="https://user-images.githubusercontent.com/56713634/220138063-eaa300a7-7c03-4c3a-972f-e2c94d0425ee.png"></p>
 
 #### Traing & Fine-tuning
 pre-train
@@ -101,20 +101,21 @@ Fine-turning
 * Big Transfer (BiT) : large ResNet을 이용해 supervised transfer learning 수행
 * Noisy Student : large EfficientNet을 이용해 semi-supervised learning 수행(ImageNet과 라벨이 지워진 JFT-300M 데이터셋)
 
-[table2 첨부]
+<p align="center"><img width="859" alt="스크린샷 2023-02-20 오후 11 49 31" src="https://user-images.githubusercontent.com/56713634/220138264-74f849c2-90a0-4faf-8d34-81a531b4160c.png"></p>
 
 * 거의 모든 데이터셋에서 ViT-H/14 모델이 가장 높은 성능
 * 기존 SOTA 모델인 BiT-L 보다도 높은 성능이며 더 적은 시간
   > 더 작은 모델인 ViT-L/16 또한 BiT-L 보다 높은 성능과 적은 시간
   
-[사진 2]
+<p align="center"><img width="844" alt="스크린샷 2023-02-20 오후 11 49 38" src="https://user-images.githubusercontent.com/56713634/220138376-33acea7f-af13-4684-a248-2893c8614a7e.png"></p>
 
 ## Pre-training Data Requirements
 ViT는 대규모 사이즈의 dataset인 JFT-300M에 대해 pre-train하였을 때 더 좋은 성능을 보여줌
 
 ResNet 보다 vision 에 대한 inductive bias 가 적을 때 데이터 세트의 크기가 얼마나 중요한지에 대한 실험을 수행
 
-[사진3,4]
+<p align="center"><img width="850" alt="스크린샷 2023-02-20 오후 11 50 43" src="https://user-images.githubusercontent.com/56713634/220138570-ef5552f5-8d26-4773-9c54-b49d0267fb05.png"></p>
+
 #### Fiure 3
 * 가장 작은 dataset에서는 Base보다 Large모델의 성능이 떨어짐
 * 21K를 사용시 성능이 비슷해짐
@@ -127,7 +128,9 @@ JFT 데이터셋을 각각 다른 크기로 랜덤 샘플링한 데이터셋을 
 ## Scaling Study
 FT-300M 데이터세트에서 transfer 성능에 대해 다양한 모델로 확장된 연구를 수행한 결과
 
-[그림5]
+
+<p align="center"><img width="850" alt="스크린샷 2023-02-20 오후 11 50 52" src="https://user-images.githubusercontent.com/56713634/220138646-bebeac48-238b-464d-a6ae-9d0cbdec1637.png"></p>
+
 * 같은 시간이 소모되었을 때 ViT가 더 높은 성능
 * __성능과 cost의 trade-off에서 ViT가 BiT보다 우세__
 * Cost가 낮을 때는 Hybrid가 ViT보다 유리한 듯 하지만 Cost가 높아지면서 trade-off 차이가 감소
@@ -135,7 +138,7 @@ FT-300M 데이터세트에서 transfer 성능에 대해 다양한 모델로 확�
 ## Inspecting Vision Transformer
 ViT 가 이미지를 처리하는 방법을 이해하기 위해 분석
 
-[그림 7]
+<p align="center"><img width="866" alt="스크린샷 2023-02-20 오후 11 52 06" src="https://user-images.githubusercontent.com/56713634/220138851-edaffac7-904f-4b21-a82c-34a604b2b5c4.png"></p>
 
 #### 왼쪽
 * ViT 의 첫번째 레이어는 flatten patch 를 더 낮은 차원 공간에 projection
@@ -154,3 +157,6 @@ ViT 가 이미지를 처리하는 방법을 이해하기 위해 분석
 * attention distance 는 CNN의 receptive field size 와 유사
 * 일부 head 에서는 최하위 레이어에 있는 대부분의 이미지에 attention 을 적용하여 global 하게 모델을 사용할 수 있다는 것을 보여줌
 * 구성요소는 각 patch 내 미세 구조의 low-dimensional representation 에서 basic function 과 유사
+
+
+<p align="center"><img width="278" alt="스크린샷 2023-02-20 오후 11 51 57" src="https://user-images.githubusercontent.com/56713634/220138938-4557d9e9-cd0f-4da5-b045-d457a61f2ba3.png"></p>
