@@ -5,7 +5,7 @@
 * 컴퓨터비전분야에서는 아직 제한적임 
   > Attention은 cnn과 같은 convolution network를 같이 사용해야함
 * ViT(Vision Transformer)는 이러한 cnn의 의존을 제거하고 image pathch를 통해 Transformer를 직접 수행
-* 대용량 데이터셋으로 pre-training한 뒤 작은 양의 데이터로 transferred하는 방식으로 기존 모델들 보다 좋은 성능 및 적은 게산량을 가짐
+* 대용량 데이터셋으로 pre-training한 뒤 작은 양의 데이터로 transferred하는 방식으로 기존 모델들 보다 좋은 성능 및 적은 계산량을 가짐
 
 # Introdution
 * NLP에서 Transformer는 large text corpus에서 사전 훈련을 수행, specific dataset에 대해 fine-tuning하는 방식
@@ -109,3 +109,48 @@ Fine-turning
   
 [사진 2]
 
+## Pre-training Data Requirements
+ViT는 대규모 사이즈의 dataset인 JFT-300M에 대해 pre-train하였을 때 더 좋은 성능을 보여줌
+
+ResNet 보다 vision 에 대한 inductive bias 가 적을 때 데이터 세트의 크기가 얼마나 중요한지에 대한 실험을 수행
+
+[사진3,4]
+#### Fiure 3
+* 가장 작은 dataset에서는 Base보다 Large모델의 성능이 떨어짐
+* 21K를 사용시 성능이 비슷해짐
+
+#### Fiure 4
+JFT 데이터셋을 각각 다른 크기로 랜덤 샘플링한 데이터셋을 활용하여 진행
+* 작은 dataset에서는 확실히 inductive bias 효과가 있는 CNN 계열의 BiT가 높은 성능
+* 큰 dataset으로 갈수록 ViT 성능이 더 좋아지는 것을 확인
+
+## Scaling Study
+FT-300M 데이터세트에서 transfer 성능에 대해 다양한 모델로 확장된 연구를 수행한 결과
+
+[그림5]
+* 같은 시간이 소모되었을 때 ViT가 더 높은 성능
+* __성능과 cost의 trade-off에서 ViT가 BiT보다 우세__
+* Cost가 낮을 때는 Hybrid가 ViT보다 유리한 듯 하지만 Cost가 높아지면서 trade-off 차이가 감소
+
+## Inspecting Vision Transformer
+ViT 가 이미지를 처리하는 방법을 이해하기 위해 분석
+
+[그림 7]
+
+#### 왼쪽
+* ViT 의 첫번째 레이어는 flatten patch 를 더 낮은 차원 공간에 projection
+* 왼쪽은 학습된 embedding filter 의 구성 요소
+* 구성요소는 각 patch 내 미세 구조의 low-dimensional representation 에서 basic function 과 유사
+* projection 된 이후 학습된 position embedding 이 patch representation 에 추가
+
+#### 가운데
+* 모델이 position embedding 의 유사성에서 이미지 내 거리를 인코딩 하는 방법을 학습한다는 것을 보여줌
+* 구성요소는 각 patch 내 미세 구조의 low-dimensional representation 에서 basic function 과 유사
+* 더 가까운 patch 는 더 유사한 position embedding 을 갖는 경향이 있으며 행-열 구조
+* Self-attention 을 통해 ViT 는 가장 낮은 레이어에서도 전체 이미지에 대한 정보를 보여줌
+
+#### 오른쪽 
+* Self-attention 의 weight 를 기반으로 정보가 통합되는 이미지 공간의 평균 거리를 오른쪽 그림과 같이 계산
+* attention distance 는 CNN의 receptive field size 와 유사
+* 일부 head 에서는 최하위 레이어에 있는 대부분의 이미지에 attention 을 적용하여 global 하게 모델을 사용할 수 있다는 것을 보여줌
+* 구성요소는 각 patch 내 미세 구조의 low-dimensional representation 에서 basic function 과 유사
