@@ -25,30 +25,50 @@
 모델 설계시 원래의 Transformer를 가능한 가깝게 따름
 
 ## VISION TRANSFORMER (ViT)
-<p align="center"><img width="866" alt="스크린샷 2023-02-20 오후 11 46 44" src="https://user-images.githubusercontent.com/56713634/220137650-b62d91ea-c78f-4ff8-8991-17f2530ba098.png"></p>
+<p align="center"><img width="600" alt="스크린샷 2023-02-20 오후 11 46 44" src="https://user-images.githubusercontent.com/56713634/220137650-b62d91ea-c78f-4ff8-8991-17f2530ba098.png"></p>
+
 
 * Transformer은 1D token embedding sqeunce를 input으로 받음
 * 2D 이미지 <img width="90" alt="스크린샷 2023-02-20 오후 5 28 31" src="https://user-images.githubusercontent.com/56713634/220052481-817875f6-db40-4f00-87c4-8df968f5df1b.png"> 를 flatten 된 2D 이미지 패치인 <img width="103" alt="스크린샷 2023-02-20 오후 5 28 26" src="https://user-images.githubusercontent.com/56713634/220052590-24072529-f75d-404e-a94e-d106d22771fe.png"> 로 재구성
-  > 이미지를 (P x P) 크기의 패치 N = HW/P^2로 분할하여 구축
+  > 이미지를 (P x P) 크기의 패치 N = HW/P^2로 분할하여 구축 <br>
+  > ex) P = 128, H,W가 256이면 N = 4 즉 128x128xC의 patch가 총 4개
   
   > (H, W) : 원본 이미지의 해상도 | (P, P) : 각 이미지 패치의 해상도 | C : 채널 개수 | N : 패치 개수
-* Trainable linear projection을 통해 x_p의 각 패치를 flatten한 백터 D차원으로 변환 후 사용 이를 __patch embdding__ 
+* Trainable linear projection을 통해 x_p의 각 패치를 flatten한 백터 D차원으로 변환 후 사용 이를 __patch embedding__ 
   > 모든 layer에 고정된 백터 크기 D를 사용하기 때문에
-* BERT의 [class]토큰과 비슷하게 임베딩(Learnable class)된 패치의 시퀀스에 z0 = x_class 임베딩을 추가로 붙여 넣음
-  > 식 (4)에 해당
-* 패치에 대해 나온 인코더 output은 representation으로 해석하여 분류에 사용
-  > L번의 encoder를 거친 후의 output 중 learnable class 임베딩과 관련된 부분
 * position embedding 은 위치 정보를 유지하기 위해 patch embedding에 더해짐
+* BERT의 [class]토큰과 비슷하게 임베딩(Learnable class)된 패치의 시퀀스에 z0 = x_class 임베딩을 추가로 붙여 넣음
+* 임베딩을 인코더에 입력, 이를 통해 output으로 image representation 출력
+  > L번의 encoder를 거친 후의 output 중 learnable class 임베딩과 관련된 부분
+* MLP Head에 image representation을 입력시켜 분류
+
+#### 오른쪽 그림에 대한 추가 설명
+
 * Transformer 인코더는 Multi-headed self-attention 및 MLP block
 * Layernorm(LN)은 모든 block 이전에 적용되고 residual connection 은 모든 block 이후에 적용
 
 <p align="center"><img width="871" alt="스크린샷 2023-02-20 오후 11 47 49" src="https://user-images.githubusercontent.com/56713634/220137900-05325066-c7a3-4f2f-a5db-0070e369dbe3.png"></p>
 
+1) 각 patch 값
+2) Muti-head attention
+3) MLP(Muti-Layer Perceptron)
+4) LN(Layer Norm=Normalization Layer)에 z^0_L 넣어 y 획득
+
+![image1](https://user-images.githubusercontent.com/56713634/220147446-72d6f2cb-8ce9-4eaf-a7f3-2fb01c7fc35b.gif)
+
 #### Inductive Bias
-ViT는
+_학습과정에서 보지 못한 데이터 또한 추론할 수 있도록 모델이 가지고 있는 가정_
+
+* ViT가 CNN보다 image별 inductive bias가 적다는 것에 주목
+* transformer은 self-attention을 기반으로 하고 있기에 낮은 Inductive Bias 가짐
+* ViT의 Multi-Head self Attention 또한 Inductive Bias가 낮음
+
+__이를 극복하기 위한 2가지 방법__
+* Patch Extration : 이미지를 여러 개의 패치로 분할 및 순서대로 입력
+* Resolution adjustment : 패치의 크기가 동일하지만 생성되는 패치 개수는 다르기 때문에, fine-tuning 단계에서 positional embedding을 할 때 조절
 
 #### Hybrid Architecture
-
+mage patch 대신 CNN featrue map을 flatten하여 transformer 차원으로 projection하여 사용 가능
 
 ## Fine-Tuning And Higher Resolution
 * Large dataset에 pre-trained한 다음, down stream tasks에 fine-tuning
@@ -131,6 +151,7 @@ FT-300M 데이터세트에서 transfer 성능에 대해 다양한 모델로 확�
 
 <p align="center"><img width="850" alt="스크린샷 2023-02-20 오후 11 50 52" src="https://user-images.githubusercontent.com/56713634/220138646-bebeac48-238b-464d-a6ae-9d0cbdec1637.png"></p>
 
+
 * 같은 시간이 소모되었을 때 ViT가 더 높은 성능
 * __성능과 cost의 trade-off에서 ViT가 BiT보다 우세__
 * Cost가 낮을 때는 Hybrid가 ViT보다 유리한 듯 하지만 Cost가 높아지면서 trade-off 차이가 감소
@@ -160,3 +181,11 @@ ViT 가 이미지를 처리하는 방법을 이해하기 위해 분석
 
 
 <p align="center"><img width="278" alt="스크린샷 2023-02-20 오후 11 51 57" src="https://user-images.githubusercontent.com/56713634/220138938-4557d9e9-cd0f-4da5-b045-d457a61f2ba3.png"></p>
+
+# Conclusion
+
+* 이미지 인식 분야에서 Transformer 를 직접 적용하는 방법을 제안
+* 논문에서는 구조에 image-specific inductive bias 를 사용 X
+* patch 로 해석하고 NLP에서 사용되는 standard transformer encoder 로 처리
+* 대규모의 데이터 세트에 대해 pre-train 될 때 잘 작동 
+* ViT 는 많은 이미지 분류 데이터세트에서 SOTA 달성, pre-train 비용이 굉장히 저렴하다는 장점
