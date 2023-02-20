@@ -12,4 +12,15 @@
 * 컴퓨터비전 분야에서 cnn과 혹은 유사한 구조와 self-attention을 결합하려고 노력
   > cnn 등에 의존적임
   > 본 논문의 저자들은 Transformer를 직접 사용해보는 실험 진행
-* 이미지를 patch로 분할하고 이 patch들을 sequence
+* 이미지를 patch로 분할하고 이 patch들의 embedding sequence를 입력으로 설정
+  > 이미지의 patch들은 NLP의 token과 동일한 방식으로 처리
+* ImageNet과 같은 mid-sized의 데이터셋에서 학습을 진행했을때 resnet보다 몇 퍼센트 낮은 정확도를 달성
+  > __inductive bias__를 transformer에서는 고려할 수 없기 때문에 일반화가 어렵다는 문제
+* large-scale 데이터 세트에서 학습할때엔 inductive bias를 능가
+  > 즉, 충분한 규모로 사전 학습되고 더 적은 데이터로 fine tuning 할때 좋은 결과 도출
+* ImageNet : 88.36%, CIFAR-100 : 94.55% 등의 성능
+
+
+# METHOD
+## VISION TRANSFORMER (VIT)
+[사진 넣기]
