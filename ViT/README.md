@@ -111,8 +111,6 @@ Fine-turning
 #### Mtrics
 평가 지표로는 few-shot accuracy와 fine-tuning accuracy를 고려
 * Few-shot accuracy: Training set에 없는 클래스를 맞추는 문제에 대한 정확도
-  > 최소제곱회귀문제
-  
   > closed form으로 구할 수 있어서, 간혹 fine-tuning accuracy의 연산량이 부담될 때만 사용했음.
 * Fine-tuning accuracy: Fine-tuning 후의 정확도
 
