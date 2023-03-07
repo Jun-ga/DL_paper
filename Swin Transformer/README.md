@@ -84,12 +84,22 @@ non-overlapped window의 효율적인 계산을 유지하면서 cross-window con
 
 __padding을 사용해서 이 방식을 대신할 수 있지만, computational cost가 증가될 수 있어 이 방법을 사용__
 
+<p align="center"><img width="536" alt="스크린샷 2023-03-07 오전 11 22 59" src="https://user-images.githubusercontent.com/56713634/223582473-d48289f5-e3a9-46aa-adf3-4f6f3bb19269.png"></p>
+
+<p align="center"><img width="536" alt="스크린샷 2023-03-07 오전 11 22 59" src="https://user-images.githubusercontent.com/56713634/223582533-f206450e-0156-4e7b-9086-245c59eb6591.png"></p>
+
 ## Relative position bias
 Swin 방식은 ViT 방식 처럼 위치 정보를 위한 Positional encoding을 처음에 적용하지 않음
 
 __self-attention 과정에서 relative position bias를 추가함으로써 그 역할을 대체__
 
+<p align="center"><img width="1302" alt="스크린샷 2023-03-08 오전 8 41 29" src="https://user-images.githubusercontent.com/56713634/223581664-4bccbe7d-eaac-4e14-ad07-be48ff3f724f.png">
+</p>
+
+
 <p align="center"><img width="503" alt="스크린샷 2023-03-07 오전 11 23 50" src="https://user-images.githubusercontent.com/56713634/223303219-7d47fcbb-eb5a-4a35-9135-23f9cda9528f.png"></p>
+
+
 
 * attention score 구하는 식 뒤에 B(bias)를 더해줌
 * M개의 patch가 하나의 window를 구성하므로 각 축에 따라 상대적 위치는 [-M + 1, M - 1] 범위 내에 있음
@@ -115,18 +125,26 @@ __self-attention 과정에서 relative position bias를 추가함으로써 그 �
 
 ## ImageNet-1K image classification
 
-<p align="center"><img width="268" alt="스크린샷 2023-03-07 오후 12 20 10" src="https://user-images.githubusercontent.com/56713634/223312333-40441a27-df76-4275-9da4-1ccb5983c1c8.png">
+<p align="center"><img width="587" alt="스크린샷 2023-03-08 오전 8 49 47" src="https://user-images.githubusercontent.com/56713634/223581888-4d9a8beb-90c5-490a-a52f-b8c2a32bdf8a.png">
 </p>
+
+### 1K
+* 성능과 학습 속도의 trade off가 더 적음
+### 2K
+* 적은 파라미터로 더 높은 성능
 
 ## COCO object detection
 
 <p align="center"><img width="277" alt="스크린샷 2023-03-07 오후 12 20 39" src="https://user-images.githubusercontent.com/56713634/223312389-1d73c95a-6c18-4b0c-a81d-ebac7391897f.png">
 </p>
 
+
 ## ADE20K semantic segmentation
 
 <p align="center"><img width="275" alt="스크린샷 2023-03-07 오후 12 20 44" src="https://user-images.githubusercontent.com/56713634/223312418-6d6a493e-fad8-46fd-bb19-88107999a8f7.png">
 </p>
+
+적은 파라미터로 더 높은 성능 향상
 
 # Conclusion
 * 본 논문은 hierarchical representation을 생성하고 입력 이미지 크기에 대해 선형 계산 복잡도를 가진 Swin transformer를 제안했다
