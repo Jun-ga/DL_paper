@@ -2,6 +2,20 @@
 
 # Introduction
 
+<p align="center"><img width="537" alt="스크린샷 2023-03-07 오전 11 57 05" src="https://user-images.githubusercontent.com/56713634/223308700-4f387ac1-dbcc-43a2-b671-2f7405f7df30.png">
+</p>
+
+* 본 논문에서는 Transformer가 NLP와 CNN이 vision에서 하는 것처럼 컴퓨터 비전을 위한 backbone 역할을 할 수 있도록 적용 가능성을 확장하고자 함
+* token은 고정 scale이기에 vision task에 적합하지않고 NLP task에 비해 해상도가 많이 높다 라는 문제
+* 이를 극복하기 위해 hierarchical feature maps을 구성하고 Swin transformer를 제안한다.
+* 기존 ViT와 다르게 hierarchical 구조로 작은 patch에서 시작하여 layer가 깊어짐에 따라 주변 patch들과 병합하는 방식으로 진행
+  > FPN, U-Net과 같은 dense predicition이 가능
+  
+<p align="center"><img width="527" alt="스크린샷 2023-03-07 오전 11 18 12" src="https://user-images.githubusercontent.com/56713634/223302401-94f66100-800f-4ef8-84e6-acd8b50c159a.png"></p>
+
+* self-attention을 진행한 뒤 다음 layer에서 window를 patch 1/2 크기만큼 오른쪽 밑으로 shift 시킨 뒤 self-attention을 진행
+* sliding window 방식은 다른 query pixel에 대해 다른 key set을 가지게 되어 낮은 latency를 가지게 되는 반면, shifted window 방식은 모든 query patch는 같은 key set을 공유해서 memory access면에서 latency가 더 적다
+
 # Method
 
 ## Overall Architecture
@@ -9,8 +23,9 @@
 </p>
 
 ViT와 같이 이미지를 patch로 분할하여 swin transformer block에 입력한다. 이때, 각 patch는 token으로 취급
-
+  > ViT는 16x16 고정, patch 사이즈가 작아지면 전체 patch 사이즈의 개수가 제곱으로 늘어가고 이에 연산량 증가
 * Stage 0: 4 by 4 patch를 통해 48개 channel을 가진 patch 생성
+  > 4x4 patch로 상당히 작은 크기임
 * Stage 1: 이를 linear embedding을 거쳐 C차원으로 변경, 이 token들이 block 통과
 * Stage 2:
   * hierarchical representation을 만들기 위해 patch merging 단계 거침
@@ -24,8 +39,10 @@ ViT와 같이 이미지를 patch로 분할하여 swin transformer block에 입�
 
 ### Self-attention in non-overlapped windows
 겹치지않는 윈도우의 self-attention은 아래의 식과 같음
+
 <p align="center"><img width="432" alt="스크린샷 2023-03-06 오후 5 06 28" src="https://user-images.githubusercontent.com/56713634/223302300-fb19ca8e-a907-45b1-a608-966685479c03.png">
 </p>
+
 __MSA__ 는 제곱에 비례해 계산량이 증가하지만 __W-MSA__ 는 선형적임
 
 ### Shifted window partitioning in successive blocks 
@@ -82,7 +99,25 @@ __self-attention 과정에서 relative position bias를 추가함으로써 그 �
 * 작은 크기의 B 행렬을 <img width="200" alt="스크린샷 2023-03-07 오전 11 24 08" src="https://user-images.githubusercontent.com/56713634/223303270-31d6b631-b2e0-4d1f-b0be-93091dfc8f9b.png">에 속하는 B로 파라미터화 가능
 * bias 항이 없거나(Table 4) absolute position embedding을 사용했을 때보다 상당한 모델 성능의 향상을 가져옴
 
+<p align="center"><img width="265" alt="스크린샷 2023-03-07 오후 12 21 04" src="https://user-images.githubusercontent.com/56713634/223312481-ef2ad23e-7adf-451d-a2ad-2828dbccca2a.png">
+</p>
+
 ## Architecture Variant
 <p align="center"><img width="410" alt="스크린샷 2023-03-07 오전 11 24 59" src="https://user-images.githubusercontent.com/56713634/223303386-4bd0ee8e-6ff3-4702-8313-d6a2a12d395b.png"></p>
 
 # Experiments
+다음을 사용하여 실험 진행
+
+* ImageNet-1K image classification
+* COCO object detection
+* ADE20K semantic segmentation
+
+## ImageNet-1K image classification
+<p align="center"><img width="268" alt="스크린샷 2023-03-07 오후 12 20 10" src="https://user-images.githubusercontent.com/56713634/223312333-40441a27-df76-4275-9da4-1ccb5983c1c8.png">
+</p>
+## COCO object detection
+<p align="center"><img width="277" alt="스크린샷 2023-03-07 오후 12 20 39" src="https://user-images.githubusercontent.com/56713634/223312389-1d73c95a-6c18-4b0c-a81d-ebac7391897f.png">
+</p>
+## ADE20K semantic segmentation
+<p align="center"><img width="275" alt="스크린샷 2023-03-07 오후 12 20 44" src="https://user-images.githubusercontent.com/56713634/223312418-6d6a493e-fad8-46fd-bb19-88107999a8f7.png">
+</p>
