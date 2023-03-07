@@ -103,6 +103,7 @@ __self-attention 과정에서 relative position bias를 추가함으로써 그 �
 </p>
 
 ## Architecture Variant
+
 <p align="center"><img width="410" alt="스크린샷 2023-03-07 오전 11 24 59" src="https://user-images.githubusercontent.com/56713634/223303386-4bd0ee8e-6ff3-4702-8313-d6a2a12d395b.png"></p>
 
 # Experiments
@@ -113,11 +114,20 @@ __self-attention 과정에서 relative position bias를 추가함으로써 그 �
 * ADE20K semantic segmentation
 
 ## ImageNet-1K image classification
+
 <p align="center"><img width="268" alt="스크린샷 2023-03-07 오후 12 20 10" src="https://user-images.githubusercontent.com/56713634/223312333-40441a27-df76-4275-9da4-1ccb5983c1c8.png">
 </p>
+
 ## COCO object detection
+
 <p align="center"><img width="277" alt="스크린샷 2023-03-07 오후 12 20 39" src="https://user-images.githubusercontent.com/56713634/223312389-1d73c95a-6c18-4b0c-a81d-ebac7391897f.png">
 </p>
+
 ## ADE20K semantic segmentation
+
 <p align="center"><img width="275" alt="스크린샷 2023-03-07 오후 12 20 44" src="https://user-images.githubusercontent.com/56713634/223312418-6d6a493e-fad8-46fd-bb19-88107999a8f7.png">
 </p>
+
+# Conclusion
+* 본 논문은 hierarchical representation을 생성하고 입력 이미지 크기에 대해 선형 계산 복잡도를 가진 Swin transformer를 제안했다
+* 이는 COCO 및 ADE20K에서 높은 성능을 보였고 이전의 best 방법을 훨씬 능가한다.
