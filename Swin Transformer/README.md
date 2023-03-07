@@ -41,7 +41,40 @@ non-overlapped window의 효율적인 계산을 유지하면서 cross-window con
 #### consecutive Swin Transformer blocks are computed as
 [식 3]
 * MLP는 layer 2개와 GELU를 적용
+* 각 모듈에서 self attention 전에 LayerNorm 적용
+* MSA은 window 내에서 계산
+
+### 문제점
+* shifting을 적용함에 있어 효율적으로 window를 배치해야함
+* W-MSA의 window 수와 SW-MSA의 window 수가 달라짐
+  > 2x2인 window 개수가 3x3으로 늘고 크기가 MxM보다 작은 window들이 생김
 
 ### Efficient batch computation for shifted configuration
 
 [그림 4]
+* window를 shift 시키는 것을 cyclic shift
+* window size의 1/2 만큼 우측 하단으로 shift 하고 A, B, C 구역을 padding
+  > padding 시키는 부분은 반대편인 좌 상단에서 온 것이므로 A, B, C를 포함해서 self-attention을 진행하는 것은 의미가 없음
+* A, B, C에 mask를 씌운 뒤 self-attention을 수행
+* reverse cyclic shift를 진행해 원래 값으로 되돌림
+
+__padding을 사용해서 이 방식을 대신할 수 있지만, computational cost가 증가될 수 있어 이 방법을 사용__
+
+## Relative position bias
+Swin 방식은 ViT 방식 처럼 위치 정보를 위한 Positional encoding을 처음에 적용하지 않음
+
+__self-attention 과정에서 relative position bias를 추가함으로써 그 역할을 대체__
+
+[식4]
+* attention score 구하는 식 뒤에 B(bias)를 더해줌
+* M개의 patch가 하나의 window를 구성하므로 각 축에 따라 상대적 위치는 [-M + 1, M - 1] 범위 내에 있음
+  > 1번째 패치를 기준으로 M번째 패치의 거리는 M-1 이고 M번째 패치를 기준으로 1번째 패치는 -M+1
+  
+  > 절대 거리는 같지만 방향이 다르므로 상대 거리 사용
+* 작은 크기의 B 행렬을 [B헷 식]에 속하는 B로 파라미터화 가능
+* bias 항이 없거나(표4) absolute position embedding을 사용했을 때보다 상당한 모델 성능의 향상을 가져옴
+
+## Architecture Variant
+[식 사진만]
+
+# Experiments
