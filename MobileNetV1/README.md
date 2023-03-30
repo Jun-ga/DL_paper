@@ -15,29 +15,50 @@ depthwise convolution은 layer를 2개로 나눔
 
 [사진2 첨부]
 
-## standard convolution input/output size
+### standard convolution input/output size
 
-* input size: __D_F__ x __D_F__ x __M__ <br>
-* output size: __D_F__ x __D_F__ x __N__
+* input size: __D_F__ x __D_F__ x __M__
+* output size: __D_G__ x __D_G__ x __N__
 * kernel size : __D_K__ x __D_K__ x __M__ x __N__
-* cost : __(D_K)^2__ x __M__ x __N__ x __(D_F)^2__
+* cost : __(D_K)^2__ x __M__ x __N__ x __(D_G)^2__
 
 > D_F : input feature map size | D_K : Kernel size
 
-## depthwise & pointwise convolution input/output size
 
-* input size: __D_F__ x __D_F__ x __M__ <br>
-* output size: __D_F__ x __D_F__ x __N__
-* kernel size : __D_K__ x __D_K__ x 1 x N
+### depthwise convolution input/output size : Filtering stage
+
+* input size: __D_F__ x __D_F__ x __M__ 
+* output size: __D_G__ x __D_G__ x __M__
+* kernel size : __D_K__ x __D_K__ x 1 
+* cost : __(D_K)^2__ x __M__ x __(D_F)^2__
+
+### pointwise convolution input/output size : Combination stage
+
+* input size: __D_G__ x __D_G__ x __M__
+* output size: __D_G__ x __D_G__ x __N__
+* kernel size : __D_G__ x __D_G__ x __M__ x __N__
 * cost : __(D_K)^2__ x __M__ x __(D_F)^2__
 
 
+### depthwise sperable convolution cost
+__M__ x __(D_K)^2__
 
 
+### Network Structure and Training
+
+[테이블 1]
+
+* 첫번째 layer를 제외하고는 depthwise sperable convolution을 사용
+* Downsampling은 stride를 통해 진행
+* average pooling은 spatial resolution을 1로 줄이고, 이를 fully connected layer와 연결
 
 
+### standard convolution와 depthwise sperable convolution의 layer 비교
+[그림 3]
 
+## Width Multiplier: Thinner Models
 
+## Resolution Multiplier: Reduced Representation
 
 
 > 출처 : CodeEmporium 유튜브, Depthwise Separable Convolution - A FASTER CONVOLUTION!
