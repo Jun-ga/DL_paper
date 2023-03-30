@@ -1,5 +1,5 @@
 # Efficient Convolutional Neural Networks for Mobile Vision Applications
-# introdution
+# Introdution
 더 높은 정확도를 달성하기 위해 더 깊고 더 복잡해지는게 당시 트렌드하지만 이러한 발전이 효율적인 네트워크를 만드는 것은 아님
 
 Mobile 기기와 임베디드 비전 어플리케이션을 위한 효율적인(efficient) 모델인 __MobileNets__ 을 제안
@@ -13,7 +13,9 @@ factorized convolutions의 형태로 __depthwise convolution__ , __1×1 convolut
 
 depthwise convolution은 입력 채널당 1개의 filter, pointwise convolution은 depthwise convolution의 결과를 1x1 convolution을 통해 합침
 > standard convolution은 이 두과정을 하나로 합친 것
+
 depthwise convolution은 layer를 2개로 나눔
+
 * a separate layer for filtering | a separate layer for combining
   > 이 과정을 통해 모델의 크기를 크게 줄여준다.
 
@@ -53,6 +55,10 @@ __M__ x __(D_K)^2__ x __(D_F)^2__ + __N__ x __M__ x __(D_F)^2__
 
 <p align="center"><img width="797" alt="스크린샷 2023-03-30 오후 11 34 06" src="https://user-images.githubusercontent.com/56713634/228889156-07c61479-645f-419f-a1a5-242df10f0914.png"></p>
 
+## overview
+
+<p align="center"><img width="460" alt="스크린샷 2023-03-30 오후 10 57 10" src="https://user-images.githubusercontent.com/56713634/228892141-445b4696-fd67-4ce5-993b-5abc6975a9b7.png"></p>
+
 ### Network Structure and Training
 
 <p align="center"><img width="568" alt="스크린샷 2023-03-31 오전 12 36 52" src="https://user-images.githubusercontent.com/56713634/228889414-edb8c41f-10e5-4a85-89fc-bc84eef8ddef.png"></p>
@@ -86,10 +92,14 @@ network의 computational cost를 줄이기 위한 방법 -> __Resolution Multipl
 * 이미지 해상도를 224, 192, 160, 128 정도로 만들게 한다.
 
 # Experiments
+## Model Choices & Shrinking Hyperparameters
+<p align="center"><img width="372" alt="스크린샷 2023-03-31 오전 12 53 26" src="https://user-images.githubusercontent.com/56713634/228893995-7919e563-9403-4d33-baaf-cb58f87d7e83.png"></p>
+
+## Object Detection
+<p align="center"><img width="359" alt="스크린샷 2023-03-31 오전 12 58 07" src="https://user-images.githubusercontent.com/56713634/228895212-980f3445-dcc9-4485-b0a6-8b11385675f4.png"></p>
 
 
+# Conclusion
+* depthwise separable convolutions을 기반으로 한 MobilNets을 제안
+* 연산량에 비해 높은 성능(성능이 떨어지지않음), 사용 환경에 따라 적절한 크기의 모델을 선택할 수 있는 옵션을 제공했다.
 
-
-
-
-> 출처 : CodeEmporium 유튜브, Depthwise Separable Convolution - A FASTER CONVOLUTION!
