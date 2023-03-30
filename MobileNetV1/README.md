@@ -18,9 +18,9 @@ depthwise convolution은 layer를 2개로 나눔
 ### standard convolution input/output size
 
 * input size: __D_F__ x __D_F__ x __M__
-* output size: __D_G__ x __D_G__ x __N__
+* output size: __D_K__ x __D_K__ x __N__
 * kernel size : __D_K__ x __D_K__ x __M__ x __N__
-* cost : __(D_K)^2__ x __M__ x __N__ x __(D_G)^2__
+* cost : __(D_K)^2__ x __M__ x __N__ x __(D_F)^2__
 
 > D_F : input feature map size | D_K : Kernel size
 
@@ -28,15 +28,15 @@ depthwise convolution은 layer를 2개로 나눔
 ### depthwise convolution input/output size : Filtering stage
 
 * input size: __D_F__ x __D_F__ x __M__ 
-* output size: __D_G__ x __D_G__ x __M__
+* output size: __D_K__ x __D_K__ x __M__
 * kernel size : __D_K__ x __D_K__ x 1 
 * cost : __(D_K)^2__ x __M__ x __(D_F)^2__
 
 ### pointwise convolution input/output size : Combination stage
 
-* input size: __D_G__ x __D_G__ x __M__
-* output size: __D_G__ x __D_G__ x __N__
-* kernel size : __D_G__ x __D_G__ x __M__ x __N__
+* input size: __D_K__ x __D_K__ x __M__
+* output size: __D_K__ x __D_K__ x __N__
+* kernel size : __D_K__ x __D_K__ x __M__ x __N__
 * cost : __(D_K)^2__ x __M__ x __(D_F)^2__
 
 
