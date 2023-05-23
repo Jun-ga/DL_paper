@@ -1,0 +1,10 @@
+# EfficientNet : Rethinking Model Scaling for Convolutional Neural Networks
+# Introduction
+* 더 높은 accuarcy를 위해 convnet을 확장하는 기법이 널리 사용되고 있음
+  > ResNet은 더 많은 계층을 사용하여 18dptj 200으로도 확장가능
+* 그러나 이러한 방법은 제대로 된 이해 바탕으로 이뤄지않은거 같음
+  > 왜 깊게 쌓으면 쌓을수록 좋아지는지에 대해
+  > 깊이 너비 해상도 등의 한가지만 scaling
+* 본 연구에서는 scailing하는 방법을 고안하여 이를 MobileNets와 ResNet에서 검증
+
+사진 1
