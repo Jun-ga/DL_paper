@@ -24,3 +24,7 @@ instance-level image retrieval을 위한 informative, efficient representation�
 * 이는 landmark와 완전히 관련없는 이미지도 포함됨
 * 이러한 dataset에서 image가 너무 적은 class를 제거하며, test시 사용하는 Oxford 5k, Paris 6k 및 Holidays dataset와 겹치는 class를 제거함
 * 이를 통해 586개의 landmark로 나눠진 192,000개의 image data를 얻음
+
+
+# Learning to rank: an end-to-end approach
+## The R-MAC baseline
