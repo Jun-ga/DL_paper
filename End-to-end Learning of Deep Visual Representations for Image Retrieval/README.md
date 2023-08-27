@@ -27,4 +27,7 @@ instance-level image retrieval을 위한 informative, efficient representation�
 
 
 # Learning to rank: an end-to-end approach
+## MAC
+image의 representation 즉 image를 특정 vector로 표현하기 위한 기법
+* image의 properies
 ## The R-MAC baseline
