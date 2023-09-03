@@ -31,3 +31,6 @@ instance-level image retrieval을 위한 informative, efficient representation�
 image의 representation 즉 image를 특정 vector로 표현하기 위한 기법
 * image의 properies
 ## The R-MAC baseline
+
+## Learning to retrieve
+*  R-MAC pipeline은 모든 구성요소가 차별화 가능한 연산 즉, 서로 다른 영역의 multi-scale spatial pooling은 고정된 
